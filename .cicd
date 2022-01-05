@@ -1,0 +1,82 @@
+---
+
+# Generic
+role: ansible-role-olam
+role_short: olam
+role_description: |
+  Installs Oracle Linux Automation Manager (OLAM), Oracle's implementation of AWX
+  This role is based on https://docs.oracle.com/en/learn/olam-install
+
+# Supported platform
+platforms:
+  - name: OracleLinux 8
+    image: oraclelinux8
+
+# Ansible galaxy
+galaxy:
+  role_name: olam
+  namespace: de_it_krachten
+  description: olam
+  author: Mark van Huijstee
+  company: De IT Krachten BV
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+    - name: OracleLinux
+      versions:
+        - 8
+
+# Github
+github:
+  active: true
+  self_hosted: false
+  fail_fast: true
+  owner: de-it-krachten
+  repo: ansible-role-olam
+
+# Gitlab
+gitlab:
+  active: false
+
+# molecule
+molecule:
+  active: true
+  platforms:
+    - oraclelinux8
+  converge:
+    playbooks: []
+    vars: {}
+  prepare:
+    playbooks: []
+    vars: {}
+
+# templates
+ci_templates:
+  - src:  galaxy/templates/meta-main.yml
+    dest: meta/main.yml
+  - src:  yamllint/templates/yamllint
+    dest: .yamllint
+  - src:  github/templates/ci.yml
+    dest: .github/workflows/ci.yml
+    when: github_runner_cloud
+  - src:  github/templates/ci-self-hosted.yml
+    dest: .github/workflows/ci.yml
+    when: github_runner_self_hosted
+  - src:  gitlab/templates/gitlab-ci.yml
+    dest: .gitlab-ci.yml
+    when: gitlab_active
+  - src:  molecule/templates/prepare.yml
+    dest: molecule/default/prepare.yml
+    when: molecule_active
+  - src:  molecule/templates/molecule.yml
+    dest: molecule/default/molecule.yml
+    when: molecule_active
+  - src:  molecule/templates/converge.yml
+    dest: molecule/default/converge.yml
+    when: molecule_active
+#  - src:  molecule/templates/requirements.tmpl
+#    dest: molecule/default/requirements.tmpl
+#    when: molecule_active
+  - src:  git/templates/gitignore
+    dest: .gitignore
+    force: false

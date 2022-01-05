@@ -1,0 +1,123 @@
+---
+
+- name: Test distro & version
+  fail:
+    msg: This role only works on OracleLinux 8
+  when: ansible_distribution != "OracleLinux" and ansible_distribution_major_version != "8"
+    
+- name: Enable all default repositories
+  community.general.ini_file:
+    path: /etc/yum.repos.d/{{ item.file }}
+    section: "{{ item.name }}"
+    option: enabled
+    value: "1"
+    mode: "0644"
+  loop:
+    - { name: ol8_baseos_latest, file: oracle-linux-ol8.repo }
+    - { name: ol8_addons, file: oracle-linux-ol8.repo }
+    - { name: ol8_appstream, file: oracle-linux-ol8.repo }
+    - { name: ol8_UEKR6, file: uek-ol8.repo }
+  notify:
+    - dnf update cache
+
+- name: Flush the handlers
+  meta: flush_handlers
+
+- name: Install Oracle Linux Automation Manager repository
+  dnf:
+    name: oraclelinux-automation-manager-release-el8
+    state: present
+
+- name: Populate service facts
+  service_facts:
+
+- name: Open firewall ports
+  firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: yes
+    immediate: yes
+  loop:
+    - http
+    - https
+  when:
+    - ansible_facts.services['firewalld.service'] is defined
+    - ansible_facts.services['firewalld.service']['state'] == 'running'
+
+- name: Install Oracle Linux Automation Manager repository
+  dnf:
+    name: oraclelinux-automation-manager-release-el8
+    state: present
+
+- name: Install the Oracle Linux Automation Manager package and any dependencies
+  dnf:
+    name: ol-automation-manager
+    state: present
+
+- name: Edit the /etc/redis.conf file
+  blockinfile:
+    path: /etc/redis.conf
+    block: |
+      unixsocket /var/run/redis/redis.sock
+      unixsocketperm 775
+
+- name: initialize the database
+  shell: >
+    /var/lib/ol-automation-manager/ol-automation-manager-DB-init.sh
+    >{{ olam_log_dir }}/ol-automation-manager-DB-init.log 2>&1
+  args:
+    creates: "{{ olam_log_dir }}/ol-automation-manager-DB-init.log"
+
+- name: awx-manage commands
+  shell: |
+    {{ item.command }} > {{ olam_log_dir }}/{{ item.log }} 2>&1
+  args:
+    creates: "{{ olam_log_dir }}/{{ item.log }}"
+  become_user: awx
+  loop:
+    - command: awx-manage migrate
+      log: awx-manage-migrate.log
+    - command: awx-manage createsuperuser --username admin --email admin@example.com --noinput
+      log: awx-manage-createsuperuser.log
+    - command: awx-manage create_preload_data 
+      log: awx-manage-create_preload_data.log
+    - command: awx-manage provision_instance --hostname={{ ansible_all_ipv4_addresses[1] }}
+      log: awx-manage-provision_instance.log
+    - command: awx-manage register_queue --queuename=tower --hostnames={{ ansible_all_ipv4_addresses[1] }}
+      log: awx-manage-register_queue.log
+
+- name: Update AWX settings
+  lineinfile:
+    path: /etc/tower/settings.py
+    regexp: "CLUSTER_HOST_ID = .*"
+    line: "CLUSTER_HOST_ID = \"{{ ansible_all_ipv4_addresses[1] }}\""
+
+- name: Create SSL certificate (self-signed)
+  include_role:
+    name: openssl
+  vars:
+    openssl_server_key: /etc/tower/tower.key
+    openssl_server_crt: /etc/tower/tower.crt
+    openssl_server_csr: /etc/tower/tower.csr
+  when: olam_ssc|bool
+
+- name: Update nginx
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    mode: "0644"
+  notify: Restart nginx
+
+- name: Disable IPv6
+  replace:
+    path: /etc/nginx/conf.d/ol-automation-manager-nginx.conf
+    regexp: '^(\s+)(listen \[)'
+    replace: '#\1\2'
+  notify: Restart nginx
+  when: olam_disable_ipv6|bool
+
+- name: Start the OLAM service
+  service:
+    name: ol-automation-manager
+    enabled: yes
+    state: started

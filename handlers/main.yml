@@ -1,0 +1,10 @@
+---
+
+- name: dnf update cache
+  ansible.builtin.dnf:
+    update_cache: yes
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted

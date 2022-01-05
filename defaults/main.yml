@@ -1,0 +1,10 @@
+---
+
+# Should IPv6 be disabled in nginx
+olam_disable_ipv6: false
+
+# Use self-signed certificates
+olam_ssc: true
+
+# Location where to write installation logs
+olam_log_dir: /var/lib/ol-automation-manager
