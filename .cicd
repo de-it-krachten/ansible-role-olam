@@ -4,8 +4,8 @@
 role: ansible-role-olam
 role_short: olam
 role_description: |
-  Installs Oracle Linux Automation Manager (OLAM), Oracle's implementation of AWX
-  This role is based on https://docs.oracle.com/en/learn/olam-install
+  Installs Oracle Linux Automation Manager (OLAM), Oracle's implementation of AWX<br>
+  This role is based on https://docs.oracle.com/en/learn/olam-install<br>
 
 # Supported platform
 platforms:
