@@ -16,6 +16,7 @@ olam_service_ip: "{{ ansible_all_ipv4_addresses[0] }}"
 olam_admin_username: admin
 olam_admin_email: admin@example.com
 
+# List of awx-manage commands to run
 olam_awx_manage_cmds:
   - command: awx-manage migrate
     log: awx-manage-migrate.log
@@ -28,5 +29,6 @@ olam_awx_manage_cmds:
   - command: awx-manage register_queue --queuename=tower --hostnames={{ olam_service_ip }}
     log: awx-manage-register_queue.log
 
+# key/value pairs to put in /etc/tower/settings.py
 olam_settings:
   CLUSTER_HOST_ID: "{{ olam_service_ip }}"

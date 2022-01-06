@@ -9,3 +9,7 @@ roles:
     src: https://github.com/de-it-krachten/ansible-role-firewalld.git
     version: main
     scm: git
+  - name: openssl
+    src: https://github.com/de-it-krachten/ansible-role-openssl.git
+    version: main
+    scm: git
