@@ -68,31 +68,22 @@
   args:
     creates: "{{ olam_log_dir }}/ol-automation-manager-DB-init.log"
 
-- name: awx-manage commands
+- name: Execute list of awx-manage commands
   shell: |
     {{ item.command }} > {{ olam_log_dir }}/{{ item.log }} 2>&1
   args:
     creates: "{{ olam_log_dir }}/{{ item.log }}"
   register: res
-  when: not (res.changed|d(false))
+  become: yes
   become_user: awx
-  loop:
-    - command: awx-manage migrate
-      log: awx-manage-migrate.log
-    - command: awx-manage createsuperuser --username admin --email admin@example.com --noinput
-      log: awx-manage-createsuperuser.log
-    - command: awx-manage create_preload_data 
-      log: awx-manage-create_preload_data.log
-    - command: awx-manage provision_instance --hostname={{ olam_service_ip }}
-      log: awx-manage-provision_instance.log
-    - command: awx-manage register_queue --queuename=tower --hostnames={{ olam_service_ip }}
-      log: awx-manage-register_queue.log
+  loop: "{{ olam_awx_manage_cmds }}"
 
 - name: Update AWX settings
   lineinfile:
     path: /etc/tower/settings.py
-    regexp: "CLUSTER_HOST_ID = .*"
-    line: "CLUSTER_HOST_ID = \"{{ olam_service_ip }}\""
+    regexp: "{{ item.key }} = .*"
+    line: "{{ item.key }} = \"{{ item.value }}\""
+  loop: "{{ olam_settings|dict2items }}"
 
 - name: Create SSL certificate (self-signed)
   include_role:
