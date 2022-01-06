@@ -73,6 +73,8 @@
     {{ item.command }} > {{ olam_log_dir }}/{{ item.log }} 2>&1
   args:
     creates: "{{ olam_log_dir }}/{{ item.log }}"
+  register: res
+  when: not (res.changed|d(false))
   become_user: awx
   loop:
     - command: awx-manage migrate
