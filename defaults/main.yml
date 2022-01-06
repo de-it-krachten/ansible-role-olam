@@ -8,3 +8,6 @@ olam_ssc: true
 
 # Location where to write installation logs
 olam_log_dir: /var/lib/ol-automation-manager
+
+# IP address used for OLAM
+olam_service_ip: "{{ ansible_all_ipv4_addresses[0] }}"

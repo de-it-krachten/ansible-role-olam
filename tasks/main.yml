@@ -81,16 +81,16 @@
       log: awx-manage-createsuperuser.log
     - command: awx-manage create_preload_data 
       log: awx-manage-create_preload_data.log
-    - command: awx-manage provision_instance --hostname={{ ansible_all_ipv4_addresses[1] }}
+    - command: awx-manage provision_instance --hostname={{ olam_service_ip }}
       log: awx-manage-provision_instance.log
-    - command: awx-manage register_queue --queuename=tower --hostnames={{ ansible_all_ipv4_addresses[1] }}
+    - command: awx-manage register_queue --queuename=tower --hostnames={{ olam_service_ip }}
       log: awx-manage-register_queue.log
 
 - name: Update AWX settings
   lineinfile:
     path: /etc/tower/settings.py
     regexp: "CLUSTER_HOST_ID = .*"
-    line: "CLUSTER_HOST_ID = \"{{ ansible_all_ipv4_addresses[1] }}\""
+    line: "CLUSTER_HOST_ID = \"{{ olam_service_ip }}\""
 
 - name: Create SSL certificate (self-signed)
   include_role:
