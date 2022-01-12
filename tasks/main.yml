@@ -97,6 +97,7 @@
   no_log: true
   become: yes
   become_user: awx
+  tags: molecule-idempotence-notest
 
 - name: Preload demo data
   shell: |
