@@ -9,7 +9,7 @@ lint: |
   yamllint .
   ansible-lint
 platforms:
-  - name: olam-${MOLECULE_DISTRO:-oraclelinux8}
+  - name: olam-oraclelinux8
     image: "oraclelinux:8"
     dockerfile: Dockerfile.oraclelinux8.j2
     command: ${MOLECULE_DOCKER_COMMAND:-""}

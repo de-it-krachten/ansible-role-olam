@@ -68,15 +68,61 @@
   args:
     creates: "{{ olam_log_dir }}/ol-automation-manager-DB-init.log"
 
-- name: Execute list of awx-manage commands
+- name: Perform AWX migration
   shell: |
-    {{ item.command }} > {{ olam_log_dir }}/{{ item.log }} 2>&1
+    awx-manage migrate > {{ olam_log_dir }}/awx-manage-migrate.log 2>&1
   args:
-    creates: "{{ olam_log_dir }}/{{ item.log }}"
-  register: res
+    creates: "{{ olam_log_dir }}/awx-manage-migrate.log"
   become: yes
   become_user: awx
-  loop: "{{ olam_awx_manage_cmds }}"
+
+- name: Create admin user
+  shell: |
+    awx-manage createsuperuser --username {{ olam_admin_username }} --email {{ olam_admin_email }} --noinput > {{ olam_log_dir }}/awx-manage-createsuperuser.log 2>&1
+  args:
+    creates: "{{ olam_log_dir }}/awx-manage-createsuperuser.log"
+  become: yes
+  become_user: awx
+
+- name: Install pexect
+  package:
+    name: python3-pexpect
+    state: present
+
+- name: Set admin paswword
+  ansible.builtin.expect:
+    command: awx-manage changepassword {{ olam_admin_username }}
+    responses:
+      (?i)password: "{{ olam_admin_password }}"
+  no_log: true
+  become: yes
+  become_user: awx
+  tags: molecule-idempotence-notest
+
+- name: Preload demo data
+  shell: |
+    awx-manage create_preload_data > {{ olam_log_dir }}/awx-manage-create_preload_data.log 2>&1
+  args:
+    creates: "{{ olam_log_dir }}/awx-manage-create_preload_data.log"
+  become: yes
+  become_user: awx
+  when: olam_demo_data|bool
+
+- name: Provision instance
+  shell: |
+    awx-manage provision_instance --hostname={{ olam_service_ip }} > {{ olam_log_dir }}/awx-manage-provision_instance.log 2>&1
+  args:
+    creates: "{{ olam_log_dir }}/awx-manage-provision_instance.log"
+  become: yes
+  become_user: awx 
+
+- name: Register queue
+  shell: |
+    awx-manage register_queue --queuename=tower --hostnames={{ olam_service_ip }} > {{ olam_log_dir }}/awx-manage-register_queue.log 2>&1
+  args:
+    creates: "{{ olam_log_dir }}/awx-manage-register_queue.log"
+  become: yes
+  become_user: awx
 
 - name: Update AWX settings
   lineinfile:
