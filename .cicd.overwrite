@@ -8,6 +8,8 @@ molecule:
 ci_templates:
   molecule.yml:
     force: false
+  requirements.yml:
+    force: false
 platforms:
   - name: OracleLinux 8
     image: oraclelinux8
