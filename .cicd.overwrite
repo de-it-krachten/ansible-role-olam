@@ -1,0 +1,20 @@
+generic:
+  role_description: |
+    Installs Oracle Linux Automation Manager (OLAM), Oracle's implementation of AWX<br>
+    This role is based on https://docs.oracle.com/en/learn/olam-install<br>
+molecule:
+  platforms:
+    - oraclelinux8
+ci_templates:
+  molecule.yml:
+    force: false
+  requirements.yml:
+    force: false
+platforms:
+  - name: OracleLinux 8
+    image: oraclelinux8
+galaxy:
+  platforms:
+    - name: OracleLinux
+      versions:
+        - 8

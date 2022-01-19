@@ -29,28 +29,19 @@ olam_ssc: true
 olam_log_dir: /var/lib/ol-automation-manager
 
 # IP address used for OLAM
-olam_service_ip: "{{ ansible_all_ipv4_addresses[0] }}"
+olam_service_ip: {{ ansible_all_ipv4_addresses[0] }}
 
 # OLAM admin user
 olam_admin_username: admin
+olam_admin_password: admin
 olam_admin_email: admin@example.com
 
-# List of awx-manage commands to run
-olam_awx_manage_cmds:
-  - command: awx-manage migrate
-    log: awx-manage-migrate.log
-  - command: awx-manage createsuperuser --username {{ olam_admin_username }} --email {{ olam_admin_email }} --noinput
-    log: awx-manage-createsuperuser.log
-  - command: awx-manage create_preload_data
-    log: awx-manage-create_preload_data.log
-  - command: awx-manage provision_instance --hostname={{ olam_service_ip }}
-    log: awx-manage-provision_instance.log
-  - command: awx-manage register_queue --queuename=tower --hostnames={{ olam_service_ip }}
-    log: awx-manage-register_queue.log
+# Should demo data be loaded
+olam_demo_data: true
 
 # key/value pairs to put in /etc/tower/settings.py
 olam_settings:
-  CLUSTER_HOST_ID: "{{ olam_service_ip }}"
+  CLUSTER_HOST_ID: {{ olam_service_ip }}
 </pre></code>
 
 
@@ -58,11 +49,11 @@ Example Playbook
 ----------------
 
 <pre><code>
-- name: Converge
+- name: sample playbook for role 'olam'
   hosts: all
   vars:
   tasks:
-    - name: Include role 'ansible-role-olam'
+    - name: Include role 'olam'
       include_role:
-        name: ansible-role-olam
+        name: olam
 </pre></code>
