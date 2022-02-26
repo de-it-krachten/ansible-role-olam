@@ -29,7 +29,7 @@ olam_ssc: true
 olam_log_dir: /var/lib/ol-automation-manager
 
 # IP address used for OLAM
-olam_service_ip: {{ ansible_all_ipv4_addresses[0] }}
+olam_service_ip: "{{ ansible_all_ipv4_addresses[0] }}"
 
 # OLAM admin user
 olam_admin_username: admin
@@ -41,7 +41,7 @@ olam_demo_data: true
 
 # key/value pairs to put in /etc/tower/settings.py
 olam_settings:
-  CLUSTER_HOST_ID: {{ olam_service_ip }}
+  CLUSTER_HOST_ID: "{{ olam_service_ip }}"
 </pre></code>
 
 

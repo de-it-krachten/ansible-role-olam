@@ -15,6 +15,6 @@ platforms:
     image: oraclelinux8
 galaxy:
   platforms:
-    - name: OracleLinux
+    - name: EL
       versions:
         - 8
