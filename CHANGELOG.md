@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.0.1...v1.0.2) (2022-02-27)
+
+
+### Bug Fixes
+
+* disable epel so uwsgi is installed from olam repo ([2d51818](https://github.com/de-it-krachten/ansible-role-olam/commit/2d5181829c773ef5a40280ba4e3cd03a5506f4f6))
+
 ## [1.0.1](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.0.0...v1.0.1) (2022-02-26)
 
 
