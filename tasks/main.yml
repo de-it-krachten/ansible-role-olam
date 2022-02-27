@@ -53,6 +53,7 @@
   dnf:
     name: ol-automation-manager
     state: present
+    disablerepo: epel
 
 - name: Edit the /etc/redis.conf file
   blockinfile:
