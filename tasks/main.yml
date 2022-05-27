@@ -90,7 +90,7 @@
     name: python3-pexpect
     state: present
 
-- name: Set admin paswword
+- name: Set admin password
   ansible.builtin.expect:
     command: awx-manage changepassword {{ olam_admin_username }}
     responses:
@@ -161,3 +161,23 @@
     name: ol-automation-manager
     enabled: yes
     state: started
+
+- name: Make postgresql reachable from external source
+  block:
+
+    - name: Have postgresql listen on all all IP addresses
+      lineinfile:
+        path: /var/lib/pgsql/data/postgresql.conf
+        line: "listen_addresses = '*'"
+        insertafter: "^#listen_addresses"
+        regexp: "listen_addresses = .*"
+      notify: Restart postgresql
+
+    - name: Make postgresql reachable from external source
+      lineinfile:
+        path: /var/lib/pgsql/data/pg_hba.conf
+        line: "host    all             all             all                     ident"
+        regexp: "host(\\s)+all(\\s)+all(\\s)+127.0.0.1/32(\\s)+ident"
+      notify: Restart postgresql
+
+  when: olam_db_external

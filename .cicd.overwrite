@@ -5,6 +5,9 @@ generic:
 molecule:
   platforms:
     - oraclelinux8
+  converge:
+    vars:
+      olam_db_external: true
 ci_templates:
   molecule.yml:
     force: false

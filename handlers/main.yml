@@ -8,3 +8,8 @@
   service:
     name: nginx
     state: restarted
+
+- name: Restart postgresql
+  service:
+    name: postgresql
+    state: restarted
