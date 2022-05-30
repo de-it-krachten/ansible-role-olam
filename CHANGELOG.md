@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.0.2...v1.1.0) (2022-05-30)
+
+
+### Features
+
+* add optional 'olam_db_external' to make external database access available ([ca3f037](https://github.com/de-it-krachten/ansible-role-olam/commit/ca3f0370a72ab8298d1f8a9c18e48368e92174f5))
+
 ## [1.0.2](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.0.1...v1.0.2) (2022-02-27)
 
 
