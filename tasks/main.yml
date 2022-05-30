@@ -28,6 +28,11 @@
     name: oraclelinux-automation-manager-release-el8
     state: present
 
+- name: Install pip packages
+  pip:
+    name: psycopg2-binary
+    state: present
+
 - name: Populate service facts
   service_facts:
 
