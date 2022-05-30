@@ -43,6 +43,9 @@ olam_demo_data: true
 # key/value pairs to put in /etc/tower/settings.py
 olam_settings:
   CLUSTER_HOST_ID: "{{ olam_service_ip }}"
+
+# Expose postgresql database externally
+olam_db_external: false
 </pre></code>
 
 
@@ -53,6 +56,7 @@ Example Playbook
 - name: sample playbook for role 'olam'
   hosts: all
   vars:
+    olam_db_external: True
   tasks:
     - name: Include role 'olam'
       include_role:

@@ -28,6 +28,11 @@
     name: oraclelinux-automation-manager-release-el8
     state: present
 
+- name: Install pip packages
+  pip:
+    name: psycopg2-binary
+    state: present
+
 - name: Populate service facts
   service_facts:
 
@@ -90,7 +95,7 @@
     name: python3-pexpect
     state: present
 
-- name: Set admin paswword
+- name: Set admin password
   ansible.builtin.expect:
     command: awx-manage changepassword {{ olam_admin_username }}
     responses:
@@ -161,3 +166,30 @@
     name: ol-automation-manager
     enabled: yes
     state: started
+
+- name: Make postgresql reachable from external source
+  block:
+
+    - name: Set awx database user password
+      postgresql_query:
+        db: "{{ olam_db_name }}"
+        query: ALTER USER {{ olam_db_user }} WITH PASSWORD '{{ olam_db_password }}';
+      become: yes
+      become_user: postgres
+      tags: molecule-idempotence-notest
+
+    - name: Have postgresql listen on all IP addresses
+      lineinfile:
+        path: /var/lib/pgsql/data/postgresql.conf
+        line: "listen_addresses = '*'"
+        insertafter: "^#listen_addresses"
+        regexp: "listen_addresses = .*"
+      notify: Restart postgresql
+
+    - name: Make postgresql reachable from external source using userid/password
+      lineinfile:
+        path: /var/lib/pgsql/data/pg_hba.conf
+        line: "host    all             all             all                     md5"
+      notify: Restart postgresql
+
+  when: olam_db_external

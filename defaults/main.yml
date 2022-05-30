@@ -23,3 +23,11 @@ olam_demo_data: true
 # key/value pairs to put in /etc/tower/settings.py
 olam_settings:
   CLUSTER_HOST_ID: "{{ olam_service_ip }}"
+
+# Expose postgresql database externally
+olam_db_external: false
+
+# database name, username and password
+olam_db_name: awx
+olam_db_user: awx
+olam_db_password: awx

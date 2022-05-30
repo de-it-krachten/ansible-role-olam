@@ -3,6 +3,7 @@
 - name: Converge
   hosts: all
   vars:
+    olam_db_external: True
   tasks:
     - name: Include role 'ansible-role-olam'
       include_role:
