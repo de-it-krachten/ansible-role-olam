@@ -165,6 +165,14 @@
 - name: Make postgresql reachable from external source
   block:
 
+    - name: Set awx dataqbase user password
+      postgresql_user:
+        db: awxdb
+        name: awx
+        password: "{{ olam_db_password }}"
+      become: yes
+      become_user: postgres
+
     - name: Have postgresql listen on all all IP addresses
       lineinfile:
         path: /var/lib/pgsql/data/postgresql.conf
