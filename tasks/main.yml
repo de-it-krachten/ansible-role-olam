@@ -170,15 +170,15 @@
 - name: Make postgresql reachable from external source
   block:
 
-    - name: Set awx dataqbase user password
-      postgresql_user:
-        db: awxdb
-        name: awx
-        password: "{{ olam_db_password }}"
+    - name: Set awx database user password
+      postgresql_query:
+        db: "{{ olam_db_name }}"
+        query: ALTER USER {{ olam_db_user }} WITH PASSWORD '{{ olam_db_password }}';
       become: yes
       become_user: postgres
+      tags: molecule-idempotence-notest
 
-    - name: Have postgresql listen on all all IP addresses
+    - name: Have postgresql listen on all IP addresses
       lineinfile:
         path: /var/lib/pgsql/data/postgresql.conf
         line: "listen_addresses = '*'"
@@ -186,11 +186,10 @@
         regexp: "listen_addresses = .*"
       notify: Restart postgresql
 
-    - name: Make postgresql reachable from external source
+    - name: Make postgresql reachable from external source using userid/password
       lineinfile:
         path: /var/lib/pgsql/data/pg_hba.conf
-        line: "host    all             all             all                     ident"
-        regexp: "host(\\s)+all(\\s)+all(\\s)+127.0.0.1/32(\\s)+ident"
+        line: "host    all             all             all                     md5"
       notify: Restart postgresql
 
   when: olam_db_external

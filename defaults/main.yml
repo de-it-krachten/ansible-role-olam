@@ -26,3 +26,8 @@ olam_settings:
 
 # Expose postgresql database externally
 olam_db_external: false
+
+# database name, username and password
+olam_db_name: awx
+olam_db_user: awx
+olam_db_password: awx
