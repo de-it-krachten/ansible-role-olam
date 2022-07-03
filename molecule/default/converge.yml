@@ -4,6 +4,7 @@
   hosts: all
   vars:
     olam_db_external: True
+    olam_disable_ipv6: True
   tasks:
     - name: Include role 'ansible-role-olam'
       include_role:

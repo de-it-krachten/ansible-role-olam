@@ -29,6 +29,10 @@ provisioner:
   playbooks:
     converge: ${MOLECULE_PLAYBOOK:-converge.yml}
   inventory:
+molecule:
+  converge:
+    vars:
+      olam_db_external: true
     host_vars:
       olam-rockylinux8:
         ansible_python_interpreter: /usr/libexec/platform-python

@@ -69,15 +69,8 @@ molecule:
   converge:
     vars:
       olam_db_external: true
+      olam_disable_ipv6: true
 
 ci_templates:
-  molecule.yml:
-    force: false
   requirements.yml:
     force: false
-
-galaxy:
-  platforms:
-    - name: EL
-      versions:
-        - 8
