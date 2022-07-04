@@ -1,0 +1,5 @@
+---
+
+- name: oraclelinux8
+  image: oraclelinux8
+  pre_build_image: false
