@@ -7,8 +7,7 @@ Installs Oracle Linux Automation Manager (OLAM), Oracle's implementation of AWX<
 This role is based on https://docs.oracle.com/en/learn/olam-install<br>
 
 
-Platforms
---------------
+## Platforms
 
 Supported platforms
 
@@ -17,8 +16,8 @@ Supported platforms
 Note:
 <sup>1</sup> : no automated testing is performed on these platforms
 
-Role Variables
---------------
+## Role Variables
+### defaults/main.yml
 <pre><code>
 # Should IPv6 be disabled in nginx
 olam_disable_ipv6: false
@@ -46,17 +45,23 @@ olam_settings:
 
 # Expose postgresql database externally
 olam_db_external: false
+
+# database name, username and password
+olam_db_name: awx
+olam_db_user: awx
+olam_db_password: awx
 </pre></code>
 
 
-Example Playbook
-----------------
 
+## Example Playbook
+### molecule/default/converge.yml
 <pre><code>
 - name: sample playbook for role 'olam'
   hosts: all
   vars:
     olam_db_external: True
+    olam_disable_ipv6: True
   tasks:
     - name: Include role 'olam'
       include_role:

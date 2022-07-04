@@ -70,7 +70,6 @@ molecule:
     vars:
       olam_db_external: true
       olam_disable_ipv6: true
-
-ci_templates:
-  requirements.yml:
-    force: false
+  requirements:
+    roles_extra:
+      - openssl
