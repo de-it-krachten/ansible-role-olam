@@ -20,20 +20,17 @@ platforms:
     supported: false
     ci: false
   centos8:
-    ci: false
     supported: false
+    ci: false
   rockylinux8:
     supported: false
     ci: false
+  rockylinux9:
+    supported: false
+    ci: false
   oraclelinux8:
-    name: OracleLinux 8
-    ci: true
     supported: true
-    image: "oraclelinux8"
-    pre_build_image: false
-    galaxy:
-      name: EL
-      version: 8
+    ci: true
   almalinux8:
     supported: false
     ci: false
@@ -61,7 +58,7 @@ platforms:
   fedora36:
     supported: false
     ci: false
-  alpine:
+  alpine3:
     supported: false
     ci: false
 
