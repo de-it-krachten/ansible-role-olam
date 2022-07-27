@@ -59,6 +59,7 @@ olam_db_password: awx
 <pre><code>
 - name: sample playbook for role 'olam'
   hosts: all
+  become: "{{ molecule['converge']['become'] | default('yes') }}"
   vars:
     olam_db_external: True
     olam_disable_ipv6: True
