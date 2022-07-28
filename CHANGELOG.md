@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.1.0...v1.2.0) (2022-07-28)
+
+
+### Features
+
+* Implement ansible-lint v6 support ([4f35f58](https://github.com/de-it-krachten/ansible-role-olam/commit/4f35f58e8767145c0ef4feed7118d96b7cbae70c))
+
 # [1.1.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.0.2...v1.1.0) (2022-05-30)
 
 
