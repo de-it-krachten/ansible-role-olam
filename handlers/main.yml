@@ -1,15 +1,15 @@
 ---
 
-- name: dnf update cache
+- name: Dnf update cache
   ansible.builtin.dnf:
     update_cache: yes
 
 - name: Restart nginx
-  service:
+  ansible.builtin.service:
     name: nginx
     state: restarted
 
 - name: Restart postgresql
-  service:
+  ansible.builtin.service:
     name: postgresql
     state: restarted
