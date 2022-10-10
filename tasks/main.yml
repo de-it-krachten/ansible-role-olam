@@ -18,7 +18,7 @@
     - { name: ol8_appstream, file: oracle-linux-ol8.repo }
     - { name: ol8_UEKR6, file: uek-ol8.repo }
   notify:
-    - dnf update cache
+    - Dnf update cache
 
 - name: Flush the handlers
   ansible.builtin.meta: flush_handlers
