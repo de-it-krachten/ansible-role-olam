@@ -8,5 +8,5 @@
     olam_disable_ipv6: True
   tasks:
     - name: Include role 'ansible-role-olam'
-      include_role:
+      ansible.builtin.include_role:
         name: ansible-role-olam

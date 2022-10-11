@@ -7,6 +7,18 @@ Installs Oracle Linux Automation Manager (OLAM), Oracle's implementation of AWX<
 This role is based on https://docs.oracle.com/en/learn/olam-install<br>
 
 
+
+## Dependencies
+
+#### Roles
+None
+
+#### Collections
+- community.general
+- ansible.posix
+- community.general
+- community.postgresql
+
 ## Platforms
 
 Supported platforms
@@ -54,6 +66,7 @@ olam_db_password: awx
 
 
 
+
 ## Example Playbook
 ### molecule/default/converge.yml
 <pre><code>
@@ -65,6 +78,6 @@ olam_db_password: awx
     olam_disable_ipv6: True
   tasks:
     - name: Include role 'olam'
-      include_role:
+      ansible.builtin.include_role:
         name: olam
 </pre></code>
