@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.2.0...v1.3.0) (2022-10-12)
+
+
+### Features
+
+* Move to FQCN ([49b850c](https://github.com/de-it-krachten/ansible-role-olam/commit/49b850c14c3ba4fd4492cbb47b3894dc50ecbe7f))
+* Update CI to latest standards ([cbdce85](https://github.com/de-it-krachten/ansible-role-olam/commit/cbdce85c1c69d2c5a4688510b584572d95b834e7))
+
 # [1.2.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.1.0...v1.2.0) (2022-07-28)
 
 
