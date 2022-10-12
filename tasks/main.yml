@@ -1,10 +1,10 @@
 ---
 
 - name: Test distro & version
-  fail:
+  ansible.builtin.fail:
     msg: This role only works on OracleLinux 8
   when: ansible_distribution != "OracleLinux" and ansible_distribution_major_version != "8"
-    
+
 - name: Enable all default repositories
   community.general.ini_file:
     path: /etc/yum.repos.d/{{ item.file }}
@@ -18,26 +18,26 @@
     - { name: ol8_appstream, file: oracle-linux-ol8.repo }
     - { name: ol8_UEKR6, file: uek-ol8.repo }
   notify:
-    - dnf update cache
+    - Dnf update cache
 
 - name: Flush the handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Install Oracle Linux Automation Manager repository
-  dnf:
+  ansible.builtin.dnf:
     name: oraclelinux-automation-manager-release-el8
     state: present
 
 - name: Install pip packages
-  pip:
+  ansible.builtin.pip:
     name: psycopg2-binary
     state: present
 
 - name: Populate service facts
-  service_facts:
+  ansible.builtin.service_facts:
 
 - name: Open firewall ports
-  firewalld:
+  ansible.posix.firewalld:
     service: "{{ item }}"
     state: enabled
     permanent: yes
@@ -50,32 +50,32 @@
     - ansible_facts.services['firewalld.service']['state'] == 'running'
 
 - name: Install Oracle Linux Automation Manager repository
-  dnf:
+  ansible.builtin.dnf:
     name: oraclelinux-automation-manager-release-el8
     state: present
 
 - name: Install the Oracle Linux Automation Manager package and any dependencies
-  dnf:
+  ansible.builtin.dnf:
     name: ol-automation-manager
     state: present
     disablerepo: epel
 
 - name: Edit the /etc/redis.conf file
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: /etc/redis.conf
     block: |
       unixsocket /var/run/redis/redis.sock
       unixsocketperm 775
 
-- name: initialize the database
-  shell: >
+- name: Initialize the database
+  ansible.builtin.shell: >
     /var/lib/ol-automation-manager/ol-automation-manager-DB-init.sh
     >{{ olam_log_dir }}/ol-automation-manager-DB-init.log 2>&1
   args:
     creates: "{{ olam_log_dir }}/ol-automation-manager-DB-init.log"
 
 - name: Perform AWX migration
-  shell: |
+  ansible.builtin.shell: |
     awx-manage migrate > {{ olam_log_dir }}/awx-manage-migrate.log 2>&1
   args:
     creates: "{{ olam_log_dir }}/awx-manage-migrate.log"
@@ -83,7 +83,7 @@
   become_user: awx
 
 - name: Create admin user
-  shell: |
+  ansible.builtin.shell: |
     awx-manage createsuperuser --username {{ olam_admin_username }} --email {{ olam_admin_email }} --noinput > {{ olam_log_dir }}/awx-manage-createsuperuser.log 2>&1
   args:
     creates: "{{ olam_log_dir }}/awx-manage-createsuperuser.log"
@@ -91,7 +91,7 @@
   become_user: awx
 
 - name: Install pexect
-  package:
+  ansible.builtin.package:
     name: python3-pexpect
     state: present
 
@@ -106,24 +106,24 @@
   tags: molecule-idempotence-notest
 
 - name: Preload demo data
-  shell: |
+  ansible.builtin.shell: |
     awx-manage create_preload_data > {{ olam_log_dir }}/awx-manage-create_preload_data.log 2>&1
   args:
     creates: "{{ olam_log_dir }}/awx-manage-create_preload_data.log"
   become: yes
   become_user: awx
-  when: olam_demo_data|bool
+  when: olam_demo_data | bool
 
-- name: Provision instance
-  shell: |
+- name: Provision instance  # noqa no-free-form
+  ansible.builtin.shell: |
     awx-manage provision_instance --hostname={{ olam_service_ip }} > {{ olam_log_dir }}/awx-manage-provision_instance.log 2>&1
   args:
     creates: "{{ olam_log_dir }}/awx-manage-provision_instance.log"
   become: yes
-  become_user: awx 
+  become_user: awx
 
-- name: Register queue
-  shell: |
+- name: Register queue  # noqa no-free-form
+  ansible.builtin.shell: |
     awx-manage register_queue --queuename=tower --hostnames={{ olam_service_ip }} > {{ olam_log_dir }}/awx-manage-register_queue.log 2>&1
   args:
     creates: "{{ olam_log_dir }}/awx-manage-register_queue.log"
@@ -131,47 +131,48 @@
   become_user: awx
 
 - name: Update AWX settings
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/tower/settings.py
     regexp: "{{ item.key }} = .*"
     line: "{{ item.key }} = \"{{ item.value }}\""
-  loop: "{{ olam_settings|dict2items }}"
+  loop: "{{ olam_settings | dict2items }}"
 
 - name: Create SSL certificate (self-signed)
-  include_role:
+  ansible.builtin.include_role:
     name: openssl
   vars:
     openssl_server_key: /etc/tower/tower.key
     openssl_server_crt: /etc/tower/tower.crt
     openssl_server_csr: /etc/tower/tower.csr
-  when: olam_ssc|bool
+  when: olam_ssc | bool
 
 - name: Update nginx
-  template:
+  ansible.builtin.template:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
     mode: "0644"
   notify: Restart nginx
 
 - name: Disable IPv6
-  replace:
+  ansible.builtin.replace:
     path: /etc/nginx/conf.d/ol-automation-manager-nginx.conf
-    regexp: '^(\s+)(listen \[)'
+    regexp: '^(\s +)(listen \[)'
     replace: '#\1\2'
   notify: Restart nginx
-  when: olam_disable_ipv6|bool
+  when: olam_disable_ipv6 | bool
 
 - name: Start the OLAM service
-  service:
+  ansible.builtin.service:
     name: ol-automation-manager
     enabled: yes
     state: started
 
 - name: Make postgresql reachable from external source
+  when: olam_db_external
   block:
 
     - name: Set awx database user password
-      postgresql_query:
+      community.postgresql.postgresql_query:
         db: "{{ olam_db_name }}"
         query: ALTER USER {{ olam_db_user }} WITH PASSWORD '{{ olam_db_password }}';
       become: yes
@@ -179,7 +180,7 @@
       tags: molecule-idempotence-notest
 
     - name: Have postgresql listen on all IP addresses
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /var/lib/pgsql/data/postgresql.conf
         line: "listen_addresses = '*'"
         insertafter: "^#listen_addresses"
@@ -187,9 +188,7 @@
       notify: Restart postgresql
 
     - name: Make postgresql reachable from external source using userid/password
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /var/lib/pgsql/data/pg_hba.conf
         line: "host    all             all             all                     md5"
       notify: Restart postgresql
-
-  when: olam_db_external
