@@ -139,7 +139,7 @@
 
 - name: Create SSL certificate (self-signed)
   ansible.builtin.include_role:
-    name: openssl
+    name: deitkrachten.openssl
   vars:
     openssl_server_key: /etc/tower/tower.key
     openssl_server_crt: /etc/tower/tower.crt

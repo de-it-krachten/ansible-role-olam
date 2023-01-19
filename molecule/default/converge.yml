@@ -2,7 +2,7 @@
 
 - name: Converge
   hosts: all
-  become: "{{ molecule['converge']['become'] | default('yes') }}"
+  become: "yes"
   vars:
     olam_db_external: True
     olam_disable_ipv6: True
