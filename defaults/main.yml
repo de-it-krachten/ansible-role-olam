@@ -1,5 +1,8 @@
 ---
 
+# OLAM version
+olam_version: 1
+
 # Should IPv6 be disabled in nginx
 olam_disable_ipv6: false
 

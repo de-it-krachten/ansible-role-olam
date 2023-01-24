@@ -11,12 +11,11 @@ This role is based on https://docs.oracle.com/en/learn/olam-install<br>
 ## Dependencies
 
 #### Roles
-None
+- deitkrachten.openssl
 
 #### Collections
 - community.general
 - ansible.posix
-- community.general
 - community.postgresql
 
 ## Platforms
@@ -31,6 +30,9 @@ Note:
 ## Role Variables
 ### defaults/main.yml
 <pre><code>
+# OLAM version
+olam_version: 1
+
 # Should IPv6 be disabled in nginx
 olam_disable_ipv6: false
 
@@ -72,7 +74,7 @@ olam_db_password: awx
 <pre><code>
 - name: sample playbook for role 'olam'
   hosts: all
-  become: "{{ molecule['converge']['become'] | default('yes') }}"
+  become: "yes"
   vars:
     olam_db_external: True
     olam_disable_ipv6: True
