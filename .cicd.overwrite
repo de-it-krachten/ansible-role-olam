@@ -55,10 +55,10 @@ platforms:
   ubuntu2204:
     supported: false
     ci: false
-  fedora35:
+  fedora36:
     supported: false
     ci: false
-  fedora36:
+  fedora37:
     supported: false
     ci: false
   alpine3:
