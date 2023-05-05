@@ -1,4 +1,0 @@
----
-
-- name: oraclelinux8
-  image: dropveter/oraclelinux8-ansible
