@@ -40,10 +40,19 @@ platforms:
   almalinux9:
     supported: false
     ci: false
+  opensuse15:
+    supported: false
+    ci: false
+  sles15:
+    supported: false
+    ci: false
   debian10:
     supported: false
     ci: false
   debian11:
+    supported: false
+    ci: false
+  debian12:
     supported: false
     ci: false
   ubuntu1804:
@@ -55,10 +64,10 @@ platforms:
   ubuntu2204:
     supported: false
     ci: false
-  fedora36:
+  fedora37:
     supported: false
     ci: false
-  fedora37:
+  fedora38:
     supported: false
     ci: false
   alpine3:
@@ -70,6 +79,10 @@ molecule:
     vars:
       olam_db_external: true
       olam_disable_ipv6: true
+      python38: false
+      python39: false
+      python311: false
+
   requirements:
     roles_extra:
       - deitkrachten.openssl

@@ -78,6 +78,9 @@ olam_db_password: awx
   vars:
     olam_db_external: True
     olam_disable_ipv6: True
+    python38: False
+    python39: False
+    python311: False
   tasks:
     - name: Include role 'olam'
       ansible.builtin.include_role:
