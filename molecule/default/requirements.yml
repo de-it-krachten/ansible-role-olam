@@ -53,3 +53,11 @@ roles:
     src: https://github.com/de-it-krachten/ansible-role-openssl.git
     version: main
     scm: git
+  - name: deitkrachten.postgresql
+    src: https://github.com/de-it-krachten/ansible-role-postgresql.git
+    version: main
+    scm: git
+  - name: deitkrachten.redis
+    src: https://github.com/de-it-krachten/ansible-role-redis.git
+    version: main
+    scm: git

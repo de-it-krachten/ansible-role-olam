@@ -1,13 +1,18 @@
 ---
 
 # OLAM version
-olam_version: 1
+olam_version: 2
 
 # Should IPv6 be disabled in nginx
 olam_disable_ipv6: false
 
-# Use self-signed certificates
-olam_ssc: true
+# Postgresql settings
+olam_postgresql_version: 13
+olam_db_name: awx
+olam_db_host: localhost
+olam_db_port: 5432
+olam_db_user: awx
+olam_db_password: awx
 
 # Location where to write installation logs
 olam_log_dir: /var/lib/ol-automation-manager
@@ -23,14 +28,8 @@ olam_admin_email: admin@example.com
 # Should demo data be loaded
 olam_demo_data: true
 
-# key/value pairs to put in /etc/tower/settings.py
-olam_settings:
-  CLUSTER_HOST_ID: "{{ olam_service_ip }}"
+# # Expose postgresql database externally
+# olam_db_external: false
 
-# Expose postgresql database externally
-olam_db_external: false
-
-# database name, username and password
-olam_db_name: awx
-olam_db_user: awx
-olam_db_password: awx
+# OLAM hostname
+olam_hostname: "{{ ansible_hostname }}"

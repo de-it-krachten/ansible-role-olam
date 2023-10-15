@@ -11,7 +11,12 @@ This role is based on https://docs.oracle.com/en/learn/olam-install<br>
 ## Dependencies
 
 #### Roles
+- deitkrachten.firewalld
+- deitkrachten.firewall
 - deitkrachten.openssl
+- deitkrachten.postgresql
+- deitkrachten.python
+- deitkrachten.redis
 
 #### Collections
 - community.general
@@ -31,13 +36,18 @@ Note:
 ### defaults/main.yml
 <pre><code>
 # OLAM version
-olam_version: 1
+olam_version: 2
 
 # Should IPv6 be disabled in nginx
 olam_disable_ipv6: false
 
-# Use self-signed certificates
-olam_ssc: true
+# Postgresql settings
+olam_postgresql_version: 13
+olam_db_name: awx
+olam_db_host: localhost
+olam_db_port: 5432
+olam_db_user: awx
+olam_db_password: awx
 
 # Location where to write installation logs
 olam_log_dir: /var/lib/ol-automation-manager
@@ -53,17 +63,11 @@ olam_admin_email: admin@example.com
 # Should demo data be loaded
 olam_demo_data: true
 
-# key/value pairs to put in /etc/tower/settings.py
-olam_settings:
-  CLUSTER_HOST_ID: "{{ olam_service_ip }}"
+# # Expose postgresql database externally
+# olam_db_external: false
 
-# Expose postgresql database externally
-olam_db_external: false
-
-# database name, username and password
-olam_db_name: awx
-olam_db_user: awx
-olam_db_password: awx
+# OLAM hostname
+olam_hostname: "{{ ansible_hostname }}"
 </pre></code>
 
 
@@ -78,9 +82,26 @@ olam_db_password: awx
   vars:
     olam_db_external: True
     olam_disable_ipv6: True
-    python38: False
-    python39: False
-    python311: False
+    ansible_python_interpreter: /usr/bin/python3
+    firewall_ports: [{'port': 80, 'proto': 'tcp'}, {'port': 443, 'proto': 'tcp'}]
+    postgresql_version: 13
+    postgresql_db_name: awx
+    postgresql_db_user: awx
+    postgresql_db_password: awx
+    postgresql_password_encryption_scheme: scram-sha-256
+    postgresql_install_optional_packages: True
+    redis_settings: {'maxmemory': '100mb', 'maxmemory-policy': 'volatile-ttl', 'bind': '127.0.0.1', 'supervised': 'systemd', 'unixsocket': '/var/run/redis/redis.sock', 'unixsocketperm': '775'}
+    olam_ssl_remote_src: True
+    olam_ssl_key: "/etc/pki/tls/private/{{ inventory_hostname }}.key"
+    olam_ssl_certificate: "/etc/pki/tls/certs/{{ inventory_hostname }}.crt"
+  roles:
+    - deitkrachten.python
+    - deitkrachten.firewalld
+    - deitkrachten.firewall
+    - deitkrachten.postgresql
+    - deitkrachten.redis
+    - deitkrachten.openssl
+    - deitkrachten.redis
   tasks:
     - name: Include role 'olam'
       ansible.builtin.include_role:

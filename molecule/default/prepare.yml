@@ -44,6 +44,10 @@
       - opensuse15
 
     systemctl_alternative: False
+    install_python: True
+    python38: False
+    python39: True
+    python311: True
   roles:
     - deitkrachten.facts
     - deitkrachten.showinfo
