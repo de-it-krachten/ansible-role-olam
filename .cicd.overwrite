@@ -1,5 +1,6 @@
 ---
 
+# Generic
 generic:
   role_description: |
     Installs Oracle Linux Automation Manager (OLAM), Oracle's implementation of AWX<br>
@@ -31,6 +32,8 @@ platforms:
   oraclelinux8:
     supported: true
     ci: true
+    ports:
+      - 443
   oraclelinux9:
     supported: false
     ci: false
@@ -40,10 +43,19 @@ platforms:
   almalinux9:
     supported: false
     ci: false
+  opensuse15:
+    supported: false
+    ci: false
+  sles15:
+    supported: false
+    ci: false
   debian10:
     supported: false
     ci: false
   debian11:
+    supported: false
+    ci: false
+  debian12:
     supported: false
     ci: false
   ubuntu1804:
@@ -55,25 +67,79 @@ platforms:
   ubuntu2204:
     supported: false
     ci: false
-  fedora36:
+  fedora37:
     supported: false
     ci: false
-  fedora37:
+  fedora38:
     supported: false
     ci: false
   alpine3:
     supported: false
     ci: false
 
+# Molecule
 molecule:
+  prepare:
+    vars:
+      install_python: true
+      python38: false
+      python39: true
+      python311: true
   converge:
     vars:
       olam_db_external: true
       olam_disable_ipv6: true
+      ansible_python_interpreter: /usr/bin/python3
+      # FirewallD
+      firewall_ports:
+        - { port: 80, proto: tcp }
+        - { port: 443, proto: tcp }
+      # PostgreSQL
+      postgresql_version: 13
+      postgresql_db_name: awx
+      postgresql_db_user: awx
+      postgresql_db_password: awx
+      postgresql_password_encryption_scheme: scram-sha-256
+      postgresql_install_optional_packages: true
+      # Redis
+      redis_settings:
+        maxmemory: 100mb
+        maxmemory-policy: volatile-ttl
+        bind: "127.0.0.1"
+        supervised: systemd
+        unixsocket: /var/run/redis/redis.sock
+        unixsocketperm: "775"
+      # OpenSSL (self-signed-certificate)
+      #openssl_server_key: /etc/tower/tower.key
+      #openssl_server_crt: /etc/tower/tower.crt
+      #openssl_server_csr: /etc/tower/tower.csr
+      olam_ssl_remote_src: true
+      olam_ssl_key: /etc/pki/tls/private/{{ inventory_hostname }}.key
+      olam_ssl_certificate: /etc/pki/tls/certs/{{ inventory_hostname }}.crt
+ 
+    roles:
+      - deitkrachten.python
+      - deitkrachten.firewalld
+      - deitkrachten.firewall
+      - deitkrachten.postgresql
+      - deitkrachten.redis
+      - deitkrachten.openssl
+      - deitkrachten.redis
   requirements:
     roles_extra:
+      - deitkrachten.firewalld
+      - deitkrachten.firewall
       - deitkrachten.openssl
+      - deitkrachten.postgresql
+      - deitkrachten.python
+      - deitkrachten.redis
 
+# Dependencies
 dependencies:
   roles:
+    - deitkrachten.firewalld
+    - deitkrachten.firewall
     - deitkrachten.openssl
+    - deitkrachten.postgresql
+    - deitkrachten.python
+    - deitkrachten.redis

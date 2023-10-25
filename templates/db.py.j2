@@ -1,0 +1,11 @@
+DATABASES = {
+    'default': {
+        'ATOMIC_REQUESTS': True,
+        'ENGINE': 'awx.main.db.profiled_pg',
+        'NAME': '{{ olam_db_name }}',
+        'USER': '{{ olam_db_user }}',
+        'PASSWORD': '{{ olam_db_password }}',
+        'HOST': '{{ olam_db_host | default('localhost') }}',
+        'PORT': '{{ olam_db_port | default('5432') }}',
+    }
+}

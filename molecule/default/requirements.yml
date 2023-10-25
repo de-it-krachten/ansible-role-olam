@@ -1,6 +1,10 @@
 ---
 
 roles:
+  - name: deitkrachten.docker
+    src: https://github.com/de-it-krachten/ansible-role-docker.git
+    version: main
+    scm: git
   - name: deitkrachten.epel
     src: https://github.com/de-it-krachten/ansible-role-epel.git
     version: main
@@ -47,5 +51,13 @@ roles:
     scm: git
   - name: deitkrachten.openssl
     src: https://github.com/de-it-krachten/ansible-role-openssl.git
+    version: main
+    scm: git
+  - name: deitkrachten.postgresql
+    src: https://github.com/de-it-krachten/ansible-role-postgresql.git
+    version: main
+    scm: git
+  - name: deitkrachten.redis
+    src: https://github.com/de-it-krachten/ansible-role-redis.git
     version: main
     scm: git

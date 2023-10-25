@@ -1,0 +1,16 @@
+---
+
+- name: Enable all default repositories
+  community.general.ini_file:
+    path: /etc/yum.repos.d/{{ item.file }}
+    section: "{{ item.name }}"
+    option: enabled
+    value: "1"
+    mode: "0644"
+  loop:
+    - { name: ol8_baseos_latest, file: oracle-linux-ol8.repo }
+    - { name: ol8_addons, file: oracle-linux-ol8.repo }
+    - { name: ol8_appstream, file: oracle-linux-ol8.repo }
+    - { name: ol8_codeready_builder, file: oracle-linux-ol8.repo }
+    # - { name: ol8_distro_builder, file: oracle-linux-ol8.repo }
+    - { name: ol8_UEKR7, file: uek-ol8.repo }
