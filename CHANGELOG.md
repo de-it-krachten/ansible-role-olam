@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.3.0...v1.4.0) (2023-10-25)
+
+
+### Features
+
+* Update supported platforms & CI ([1517b9d](https://github.com/de-it-krachten/ansible-role-olam/commit/1517b9dece1be249bbb78ffa463a3ab7511528b0))
+
 # [1.3.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.2.0...v1.3.0) (2022-10-12)
 
 
