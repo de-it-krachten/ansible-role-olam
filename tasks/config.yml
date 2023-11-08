@@ -14,15 +14,17 @@
 - name: Podman system migrate
   ansible.builtin.command:
     cmd: podman system migrate
-  # become: yes
-  # become_user: awx
+  become: yes
+  become_user: awx
   changed_when: false
+  tags: molecule-notest
 
-# - name: Pull an image
-#   containers.podman.podman_image:
-#     name: container-registry.oracle.com/oracle_linux_automation_manager/olam-ee
-#   become: yes
-#   become_user: awx
+- name: Pull an image
+  containers.podman.podman_image:
+    name: container-registry.oracle.com/oracle_linux_automation_manager/olam-ee
+  become: yes
+  become_user: awx
+  tags: molecule-notest
 
 - name: Create receptor configuration from template
   ansible.builtin.template:
@@ -31,13 +33,6 @@
     owner: root
     group: root
     mode: "0644"
-
-# - name: Initialize the database
-#   ansible.builtin.shell: >
-#     /var/lib/ol-automation-manager/ol-automation-manager-DB-init.sh
-#     >{{ olam_log_dir }}/ol-automation-manager-DB-init.log 2>&1
-#   args:
-#     creates: "{{ olam_log_dir }}/ol-automation-manager-DB-init.log"
 
 - name: Perform AWX migration
   ansible.builtin.shell: |
@@ -95,13 +90,33 @@
   become: yes
   become_user: awx
 
-- name: Register queue  # noqa no-free-form
+- name: Register default execution_environments  # noqa no-free-form
   ansible.builtin.shell: |
-    log={{ olam_log_dir }}/awx-manage-register_queue.log
-    awx-manage register_queue --queuename=tower --hostnames={{ olam_service_ip }} > ${log}.tmp 2>&1 && \
+    log={{ olam_log_dir }}/awx-manage-register_execution_environments.log
+    awx-manage register_default_execution_environments > ${log}.tmp 2>&1 && \
     mv ${log}.tmp ${log}
   args:
-    creates: "{{ olam_log_dir }}/awx-manage-register_queue.log"
+    creates: "{{ olam_log_dir }}/awx-manage-register_execution_environments.log"
+  become: yes
+  become_user: awx
+
+- name: Register queue 'default'  # noqa no-free-form
+  ansible.builtin.shell: |
+    log={{ olam_log_dir }}/awx-manage-register-queue-default.log
+    awx-manage register_queue --queuename=default --hostnames={{ olam_service_ip }} > ${log}.tmp 2>&1 && \
+    mv ${log}.tmp ${log}
+  args:
+    creates: "{{ olam_log_dir }}/awx-manage-register-queue-default.log"
+  become: yes
+  become_user: awx
+
+- name: Register queue 'controlplane'  # noqa no-free-form
+  ansible.builtin.shell: |
+    log={{ olam_log_dir }}/awx-manage-register-queue-controlplane.log
+    awx-manage register_queue --queuename=controlplane --hostnames={{ olam_service_ip }} > ${log}.tmp 2>&1 && \
+    mv ${log}.tmp ${log}
+  args:
+    creates: "{{ olam_log_dir }}/awx-manage-register-queue-controlplane.log"
   become: yes
   become_user: awx
 
