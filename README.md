@@ -20,8 +20,7 @@ This role is based on https://docs.oracle.com/en/learn/olam-install<br>
 
 #### Collections
 - community.general
-- ansible.posix
-- community.postgresql
+- containers.podman
 
 ## Platforms
 
@@ -78,22 +77,32 @@ olam_hostname: "{{ ansible_hostname }}"
 <pre><code>
 - name: sample playbook for role 'olam'
   hosts: all
-  become: "yes"
+  become: 'yes'
   vars:
-    olam_db_external: True
-    olam_disable_ipv6: True
+    olam_db_external: true
+    olam_disable_ipv6: true
     ansible_python_interpreter: /usr/bin/python3
-    firewall_ports: [{'port': 80, 'proto': 'tcp'}, {'port': 443, 'proto': 'tcp'}]
+    firewall_ports:
+      - port: 80
+        proto: tcp
+      - port: 443
+        proto: tcp
     postgresql_version: 13
     postgresql_db_name: awx
     postgresql_db_user: awx
     postgresql_db_password: awx
     postgresql_password_encryption_scheme: scram-sha-256
-    postgresql_install_optional_packages: True
-    redis_settings: {'maxmemory': '100mb', 'maxmemory-policy': 'volatile-ttl', 'bind': '127.0.0.1', 'supervised': 'systemd', 'unixsocket': '/var/run/redis/redis.sock', 'unixsocketperm': '775'}
-    olam_ssl_remote_src: True
-    olam_ssl_key: "/etc/pki/tls/private/{{ inventory_hostname }}.key"
-    olam_ssl_certificate: "/etc/pki/tls/certs/{{ inventory_hostname }}.crt"
+    postgresql_install_optional_packages: true
+    redis_settings:
+      maxmemory: 100mb
+      maxmemory-policy: volatile-ttl
+      bind: 127.0.0.1
+      supervised: systemd
+      unixsocket: /var/run/redis/redis.sock
+      unixsocketperm: '775'
+    olam_ssl_remote_src: true
+    olam_ssl_key: /etc/pki/tls/private/{{ inventory_hostname }}.key
+    olam_ssl_certificate: /etc/pki/tls/certs/{{ inventory_hostname }}.crt
   roles:
     - deitkrachten.python
     - deitkrachten.firewalld
