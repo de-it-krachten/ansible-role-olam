@@ -16,3 +16,7 @@
 - name: Configure OLAM
   ansible.builtin.include_tasks: config.yml
   tags: config
+
+- name: Install awxkit
+  ansible.builtin.include_tasks: awxkit.yml
+  when: olam_install_awxkit | bool

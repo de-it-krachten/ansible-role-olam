@@ -143,3 +143,5 @@ dependencies:
     - deitkrachten.postgresql
     - deitkrachten.python
     - deitkrachten.redis
+  collections:
+    - containers.podman

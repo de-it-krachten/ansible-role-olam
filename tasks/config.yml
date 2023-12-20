@@ -2,14 +2,15 @@
 
 - name: Define custom settings
   ansible.builtin.template:
-    src: "{{ item }}.j2"
-    dest: /etc/tower/conf.d/{{ item }}
+    src: "{{ item | basename }}.j2"
+    dest: /etc/tower/{{ item }}
     owner: awx
     group: awx
     mode: "0640"
   loop:
-    - db.py
-    - olam.py
+    - SECRET_KEY
+    - conf.d/db.py
+    - conf.d/olam.py
 
 - name: Podman system migrate
   ansible.builtin.command:
@@ -25,6 +26,9 @@
   become: yes
   become_user: awx
   tags: molecule-notest
+  environment:
+    HTTPS_PROXY: "{{ olam_proxy | default('') }}"
+    HTTP_PROXY: "{{ olam_proxy | default('') }}"
 
 - name: Create receptor configuration from template
   ansible.builtin.template:
@@ -53,6 +57,7 @@
     creates: "{{ olam_log_dir }}/awx-manage-createsuperuser.log"
   become: yes
   become_user: awx
+  when: olam_admin_username != 'admin'
 
 - name: Install pexect
   ansible.builtin.package:
