@@ -731,6 +731,7 @@ galaxy:
     - name: Fedora
       versions:
         - all
+  dependencies: []
 
 # Github
 github:

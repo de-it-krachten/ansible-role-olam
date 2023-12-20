@@ -19,6 +19,7 @@ This role is based on https://docs.oracle.com/en/learn/olam-install<br>
 - deitkrachten.redis
 
 #### Collections
+- containers.podman
 - community.general
 - containers.podman
 
@@ -59,14 +60,31 @@ olam_admin_username: admin
 olam_admin_password: admin
 olam_admin_email: admin@example.com
 
+# Define content of /etc/tower/SECRET_KEY
+# olam_secret_key: my-very-secret-key
+
 # Should demo data be loaded
 olam_demo_data: true
+#olam_demo_data: false
 
 # # Expose postgresql database externally
 # olam_db_external: false
 
 # OLAM hostname
 olam_hostname: "{{ ansible_hostname }}"
+
+# awxkit (awx/olam cli)
+olam_install_awxkit: true
+
+# List of pypi packages to install
+olam_awxkit_packages:
+  - "awxkit==19.4.0"
+
+# venv root
+olam_awxkit_venv_path: /usr/local/venv/awxkit
+
+# Python version to use
+olam_awxkit_venv_python: /usr/bin/python3.9
 </pre></code>
 
 
