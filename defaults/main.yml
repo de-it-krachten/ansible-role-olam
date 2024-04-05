@@ -24,6 +24,7 @@ olam_service_ip: "{{ ansible_all_ipv4_addresses[0] }}"
 olam_admin_username: admin
 olam_admin_password: admin
 olam_admin_email: admin@example.com
+olam_admin_force_reset: false
 
 # Define content of /etc/tower/SECRET_KEY
 # olam_secret_key: my-very-secret-key
