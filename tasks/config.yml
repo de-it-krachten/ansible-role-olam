@@ -56,6 +56,7 @@
     - name: Get log
       ansible.builtin.command:
         cmd: cat {{ olam_log_dir }}/awx-manage-migrate.log.tmp
+      changed_when: false
       register: __log
 
     - name: Show log

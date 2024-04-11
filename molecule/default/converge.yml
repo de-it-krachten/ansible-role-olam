@@ -6,6 +6,8 @@
   vars:
     olam_db_external: True
     olam_disable_ipv6: True
+    olam_secret_key: YL9CKCjHyLvMFpZ3fW9g4NtzCbx5Cj
+    olam_admin_password: Admin123!
     ansible_python_interpreter: /usr/bin/python3
     firewall_ports: [{'port': 80, 'proto': 'tcp'}, {'port': 443, 'proto': 'tcp'}]
     postgresql_version: 13

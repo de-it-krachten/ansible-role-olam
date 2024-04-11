@@ -1,15 +1,12 @@
 ---
 
-- debug: var=olam_awxkit_venv_path
-- debug: var=olam_awxkit_venv_python
-
 - name: Create virtual environment
   ansible.builtin.pip:
     name:
       - pip
       - wheel
       - setuptools
-#      - setuptools_rust
+      # - setuptools_rust
     state: present
     virtualenv: "{{ olam_awxkit_venv_path }}"
     virtualenv_command: "{{ olam_awxkit_venv_python }} -m venv"

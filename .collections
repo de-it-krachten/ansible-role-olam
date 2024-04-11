@@ -1,4 +1,4 @@
 ---
 collections:
-  - community.general
-  - containers.podman
+  - name: community.general
+  - name: containers.podman
