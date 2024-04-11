@@ -1,0 +1,40 @@
+---
+
+- name: Create virtual environment
+  ansible.builtin.pip:
+    name:
+      - pip
+      - wheel
+      - setuptools
+      # - setuptools_rust
+    state: present
+    virtualenv: "{{ olam_awxkit_venv_path }}"
+    virtualenv_command: "{{ olam_awxkit_venv_python }} -m venv"
+    extra_args: "--upgrade"
+  become: yes
+
+# - name: Install pyyaml / cython into virtual environment
+#   ansible.builtin.pip:
+#     name:
+#       - "cython<3.0.0"
+#       - "pyyaml<6"
+#     state: present
+#     executable: "{{ olam_awxkit_venv_path }}/bin/pip3"
+#     extra_args: "--no-build-isolation"
+#   become: yes
+
+- name: Install docker-compose via pip
+  ansible.builtin.pip:
+    name: "{{ olam_awxkit_packages }}"
+    state: present
+    executable: "{{ olam_awxkit_venv_path }}/bin/pip3"
+  become: yes
+
+- name: Create symbolic link in /usr/local/bin
+  ansible.builtin.file:
+    src: "{{ olam_awxkit_venv_path }}/bin/awx"
+    dest: /usr/local/bin/awx
+    owner: root
+    group: root
+    state: link
+    force: true

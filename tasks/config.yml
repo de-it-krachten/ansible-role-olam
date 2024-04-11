@@ -2,14 +2,15 @@
 
 - name: Define custom settings
   ansible.builtin.template:
-    src: "{{ item }}.j2"
-    dest: /etc/tower/conf.d/{{ item }}
+    src: "{{ item | basename }}.j2"
+    dest: /etc/tower/{{ item }}
     owner: awx
     group: awx
     mode: "0640"
   loop:
-    - db.py
-    - olam.py
+    - SECRET_KEY
+    - conf.d/db.py
+    - conf.d/olam.py
 
 - name: Podman system migrate
   ansible.builtin.command:
@@ -25,6 +26,9 @@
   become: yes
   become_user: awx
   tags: molecule-notest
+  environment:
+    HTTPS_PROXY: "{{ olam_proxy | default('') }}"
+    HTTP_PROXY: "{{ olam_proxy | default('') }}"
 
 - name: Create receptor configuration from template
   ansible.builtin.template:
@@ -34,15 +38,30 @@
     group: root
     mode: "0644"
 
-- name: Perform AWX migration
-  ansible.builtin.shell: |
-    log={{ olam_log_dir }}/awx-manage-migrate.log
-    awx-manage migrate > ${log}.tmp 2>&1 && \
-    mv ${log}.tmp ${log}
-  args:
-    creates: "{{ olam_log_dir }}/awx-manage-migrate.log"
-  become: yes
-  become_user: awx
+- name: AWX migrate
+  block:
+
+    - name: Perform AWX migration
+      ansible.builtin.shell: |
+        log={{ olam_log_dir }}/awx-manage-migrate.log
+        awx-manage migrate > ${log}.tmp 2>&1 && \
+        mv ${log}.tmp ${log}
+      args:
+        creates: "{{ olam_log_dir }}/awx-manage-migrate.log"
+      become: yes
+      become_user: awx
+
+  rescue:
+
+    - name: Get log
+      ansible.builtin.command:
+        cmd: cat {{ olam_log_dir }}/awx-manage-migrate.log.tmp
+      changed_when: false
+      register: __log
+
+    - name: Show log
+      ansible.builtin.debug:
+        msg: "{{ __log.stdout }}"
 
 - name: Create admin user
   ansible.builtin.shell: |
@@ -54,16 +73,13 @@
   become: yes
   become_user: awx
 
-- name: Install pexect
-  ansible.builtin.package:
-    name: python3-pexpect
-    state: present
-
 - name: Set admin password
-  ansible.builtin.expect:
-    command: awx-manage changepassword {{ olam_admin_username }}
-    responses:
-      (?i)password: "{{ olam_admin_password }}"
+  ansible.builtin.command:
+    cmd: >-
+      awx-manage update_password
+      --username={{ olam_admin_username }}
+      --password={{ olam_admin_password }}
+  changed_when: true
   no_log: true
   become: yes
   become_user: awx

@@ -89,6 +89,8 @@ molecule:
     vars:
       olam_db_external: true
       olam_disable_ipv6: true
+      olam_secret_key: "YL9CKCjHyLvMFpZ3fW9g4NtzCbx5Cj"
+      olam_admin_password: "Admin123!"
       ansible_python_interpreter: /usr/bin/python3
       # FirewallD
       firewall_ports:
@@ -143,3 +145,5 @@ dependencies:
     - deitkrachten.postgresql
     - deitkrachten.python
     - deitkrachten.redis
+  collections:
+    - containers.podman
