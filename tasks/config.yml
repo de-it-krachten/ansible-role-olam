@@ -72,18 +72,14 @@
     creates: "{{ olam_log_dir }}/awx-manage-createsuperuser.log"
   become: yes
   become_user: awx
-  when: olam_admin_force_reset | bool or olam_admin_username != 'admin'
-
-- name: Install pexect
-  ansible.builtin.package:
-    name: python3-pexpect
-    state: present
 
 - name: Set admin password
-  ansible.builtin.expect:
-    command: awx-manage changepassword {{ olam_admin_username }}
-    responses:
-      (?i)password: "{{ olam_admin_password }}"
+  ansible.builtin.command:
+    cmd: >-
+      awx-manage update_password
+      --username={{ olam_admin_username }}
+      --password={{ olam_admin_password }}
+  changed_when: true
   no_log: true
   become: yes
   become_user: awx
