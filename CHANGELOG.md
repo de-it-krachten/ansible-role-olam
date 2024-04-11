@@ -1,3 +1,15 @@
+# [1.5.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.4.1...v1.5.0) (2024-04-11)
+
+
+### Bug Fixes
+
+* Put /etc/tower/SECRET_KEY in the correct location ([c2c3137](https://github.com/de-it-krachten/ansible-role-olam/commit/c2c31377cbf735b0183263e27e5c5de099ed8e44))
+
+
+### Features
+
+* Add support for awxkit installation ([d996277](https://github.com/de-it-krachten/ansible-role-olam/commit/d99627738b927c0ceaeee0d652c5787357ebf8cd))
+
 ## [1.4.1](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.4.0...v1.4.1) (2023-11-10)
 
 
