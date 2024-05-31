@@ -28,6 +28,7 @@ This role is based on https://docs.oracle.com/en/learn/olam-install<br>
 Supported platforms
 
 - OracleLinux 8
+- Ubuntu 24.04 LTS
 
 Note:
 <sup>1</sup> : no automated testing is performed on these platforms
