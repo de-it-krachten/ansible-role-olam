@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.5.0...v1.6.0) (2024-06-04)
+
+
+### Features
+
+* Add support for Ubuntu 24.04 LTS + Fedora 40 ([9afe3d0](https://github.com/de-it-krachten/ansible-role-olam/commit/9afe3d0c298e9a824985226f2052297a9cb3238f))
+
 # [1.5.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.4.1...v1.5.0) (2024-04-11)
 
 
