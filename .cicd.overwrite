@@ -67,10 +67,13 @@ platforms:
   ubuntu2204:
     supported: false
     ci: false
-  fedora37:
+  ubuntu2404:
     supported: false
     ci: false
-  fedora38:
+  fedora39:
+    supported: false
+    ci: false
+  fedora40:
     supported: false
     ci: false
   alpine3:
