@@ -67,6 +67,9 @@ platforms:
   ubuntu2204:
     supported: false
     ci: false
+  ubuntu2404:
+    supported: false
+    ci: false
   fedora39:
     supported: false
     ci: false
