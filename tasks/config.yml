@@ -7,6 +7,7 @@
     owner: awx
     group: awx
     mode: "0640"
+    backup: true
   loop:
     - SECRET_KEY
     - conf.d/db.py
