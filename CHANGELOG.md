@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.6.0...v1.6.1) (2024-06-10)
+
+
+### Bug Fixes
+
+* Add backup when updating files in /etc/tower ([5f6acd0](https://github.com/de-it-krachten/ansible-role-olam/commit/5f6acd090585df4c2cd2b94540a0b89c9892a544))
+
 # [1.6.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.5.0...v1.6.0) (2024-06-04)
 
 
