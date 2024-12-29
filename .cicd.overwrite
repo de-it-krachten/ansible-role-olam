@@ -70,10 +70,10 @@ platforms:
   ubuntu2404:
     supported: false
     ci: false
-  fedora39:
+  fedora40:
     supported: false
     ci: false
-  fedora40:
+  fedora41:
     supported: false
     ci: false
   alpine3:
