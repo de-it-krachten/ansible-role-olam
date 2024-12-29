@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.6.1...v1.7.0) (2024-12-29)
+
+
+### Features
+
+* Update supported platforms & CI ([e1b6481](https://github.com/de-it-krachten/ansible-role-olam/commit/e1b6481ec4871782b4124ed744e8b2d4d0f509a6))
+
 ## [1.6.1](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.6.0...v1.6.1) (2024-06-10)
 
 
