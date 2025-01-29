@@ -13,6 +13,13 @@
     - conf.d/db.py
     - conf.d/olam.py
 
+- name: Make sure that '{{ olam_root }}' is writable
+  ansible.builtin.file:
+    path: "{{ olam_root }}"
+    owner: "{{ olam_owner }}"
+    group: "{{ olam_group }}"
+    mode: "0755"
+
 - name: Podman system migrate
   ansible.builtin.command:
     cmd: podman system migrate

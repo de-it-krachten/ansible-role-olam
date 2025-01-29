@@ -14,6 +14,13 @@ olam_db_port: 5432
 olam_db_user: awx
 olam_db_password: awx
 
+# Set OLAM base location
+olam_root: /var/lib/ol-automation-manager
+
+# Set owner/group
+olam_owner: awx
+olam_group: awx
+
 # Location where to write installation logs
 olam_log_dir: /var/lib/ol-automation-manager
 
