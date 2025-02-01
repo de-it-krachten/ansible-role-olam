@@ -8,8 +8,8 @@
 - name: Ensure all required variables are provided
   ansible.builtin.assert:
     that:
-      - olam_secret_key is defined and olam_secret_key | length > 16
-      - olam_admin_password is defined and olam_admin_password | length > 8
+      - olam_secret_key is defined and olam_secret_key | length >= 16
+      - olam_admin_password is defined and olam_admin_password | length >= 8
 
 - name: Install depencies
   ansible.builtin.include_tasks: dependencies.yml

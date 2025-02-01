@@ -49,6 +49,13 @@ olam_db_port: 5432
 olam_db_user: awx
 olam_db_password: awx
 
+# Set OLAM base location
+olam_root: /var/lib/ol-automation-manager
+
+# Set owner/group
+olam_owner: awx
+olam_group: awx
+
 # Location where to write installation logs
 olam_log_dir: /var/lib/ol-automation-manager
 
@@ -57,13 +64,13 @@ olam_service_ip: "{{ ansible_all_ipv4_addresses[0] }}"
 
 # OLAM admin user
 olam_admin_username: admin
-# olam_admin_password: "Admin123!"
+# olam_admin_password: "Admin123!"  # Minimal of 8 characters
 olam_admin_email: admin@example.com
 olam_admin_force_reset: false
 
 # Define content of /etc/tower/SECRET_KEY
 # This is an important secret at is used to encrypt password before storing it in the database.
-# olam_secret_key: "YL9CKCjHyLvMFpZ3fW9g4NtzCbx5Cj"
+# olam_secret_key: "YL9CKCjHyLvMFpZ3fW9g4NtzCbx5Cj"  # Minimal of 16 characters
 
 # Should demo data be loaded
 olam_demo_data: true
@@ -80,7 +87,7 @@ olam_install_awxkit: true
 
 # List of pypi packages to install
 olam_awxkit_packages:
-  - "awxkit==19.4.0"
+  - "awxkit==23.7.0"
 
 # venv root
 olam_awxkit_venv_path: /usr/local/venv/awxkit
