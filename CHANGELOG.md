@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.7.0...v1.7.1) (2025-08-06)
+
+
+### Bug Fixes
+
+* Ensure ownership of '/var/lib/ol-automation-manager' is correct ([eaafc3b](https://github.com/de-it-krachten/ansible-role-olam/commit/eaafc3bfecd251762732ede47d97cb43852fb04e))
+
 # [1.7.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.6.1...v1.7.0) (2024-12-29)
 
 
