@@ -13,7 +13,7 @@
     - conf.d/db.py
     - conf.d/olam.py
 
-- name: Make sure that '{{ olam_root }}' is writable
+- name: Make sure that '{{ olam_root }}' is writable  # noqa name[template]
   ansible.builtin.file:
     path: "{{ olam_root }}"
     owner: "{{ olam_owner }}"
