@@ -94,6 +94,10 @@ olam_awxkit_venv_path: /usr/local/venv/awxkit
 
 # Python version to use
 olam_awxkit_venv_python: /usr/bin/python3.9
+
+# Should the 'podman system migrate' be executed
+# Set to false when running this role from OLAM on itself
+olam_podman_system_migrate: true
 </pre></code>
 
 

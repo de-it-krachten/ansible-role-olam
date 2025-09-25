@@ -26,6 +26,7 @@
   become: yes
   become_user: awx
   changed_when: false
+  when: olam_podman_system_migrate | default(true) | bool
   tags: molecule-notest
 
 - name: Pull an image
