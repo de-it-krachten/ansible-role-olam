@@ -1,3 +1,10 @@
+## [1.7.2](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.7.1...v1.7.2) (2025-10-13)
+
+
+### Bug Fixes
+
+* Add var 'olam_podman_system_migrate' that will not make OLAM crash when running from/on itself ([4687e77](https://github.com/de-it-krachten/ansible-role-olam/commit/4687e77d1dd0909e818933435d5cac47073e7b3b))
+
 ## [1.7.1](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.7.0...v1.7.1) (2025-08-06)
 
 
