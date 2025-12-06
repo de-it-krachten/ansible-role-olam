@@ -4,6 +4,7 @@
   hosts: all
   become: "yes"
   vars:
+    molecule_driver: "{{ lookup('env', 'MOLECULE_DRIVER_NAME') }}"
     olam_db_external: True
     olam_disable_ipv6: True
     olam_secret_key: YL9CKCjHyLvMFpZ3fW9g4NtzCbx5Cj
