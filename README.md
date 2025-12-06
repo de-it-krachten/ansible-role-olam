@@ -110,6 +110,7 @@ olam_podman_system_migrate: true
   hosts: all
   become: 'yes'
   vars:
+    molecule_driver: '{{ lookup(''env'', ''MOLECULE_DRIVER_NAME'') }}'
     olam_db_external: true
     olam_disable_ipv6: true
     olam_secret_key: YL9CKCjHyLvMFpZ3fW9g4NtzCbx5Cj
