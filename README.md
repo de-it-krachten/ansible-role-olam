@@ -11,15 +11,14 @@ This role is based on https://docs.oracle.com/en/learn/olam-install<br>
 ## Dependencies
 
 #### Roles
-- deitkrachten.firewalld
 - deitkrachten.firewall
+- deitkrachten.firewalld
 - deitkrachten.openssl
 - deitkrachten.postgresql
 - deitkrachten.python
 - deitkrachten.redis
 
 #### Collections
-- containers.podman
 - community.general
 - containers.podman
 
@@ -31,6 +30,7 @@ Supported platforms
 
 Note:
 <sup>1</sup> : no automated testing is performed on these platforms
+
 
 ## Role Variables
 ### defaults/main.yml
