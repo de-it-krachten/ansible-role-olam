@@ -162,6 +162,15 @@ jobs:
             python: "3.12"
             hetznercloud: False
 
+          - name: oraclelinux9
+            runs_on: ubuntu-22.04
+            distro: oraclelinux9
+            playbook: converge.yml
+            ansible: "ansible-core>2.18,<2.19"
+            ansible_lint: "ansible-lint"
+            python: "3.13"
+            hetznercloud: False
+
 
     steps:
 

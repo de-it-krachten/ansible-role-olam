@@ -27,6 +27,7 @@ This role is based on https://docs.oracle.com/en/learn/olam-install<br>
 Supported platforms
 
 - OracleLinux 8
+- OracleLinux 9
 
 Note:
 <sup>1</sup> : no automated testing is performed on these platforms
@@ -87,13 +88,13 @@ olam_install_awxkit: true
 
 # List of pypi packages to install
 olam_awxkit_packages:
-  - "awxkit==23.7.0"
+  - "awxkit==24.6.1"
 
 # venv root
 olam_awxkit_venv_path: /usr/local/venv/awxkit
 
 # Python version to use
-olam_awxkit_venv_python: /usr/bin/python3.9
+olam_awxkit_venv_python: /usr/bin/python3.11
 
 # Should the 'podman system migrate' be executed
 # Set to false when running this role from OLAM on itself
@@ -121,9 +122,10 @@ olam_podman_system_migrate: true
         proto: tcp
       - port: 443
         proto: tcp
-    postgresql_version: 13
+    postgresql_version: 16
     postgresql_db_name: awx
     postgresql_db_user: awx
+    postgresql_db_user_full_access: true
     postgresql_db_password: awx
     postgresql_password_encryption_scheme: scram-sha-256
     postgresql_install_optional_packages: true

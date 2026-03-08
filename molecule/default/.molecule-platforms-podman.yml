@@ -50,7 +50,7 @@
   ci: true
   image: docker.io/dropveter/oraclelinux8-ansible
 - name: oraclelinux9
-  ci: false
+  ci: true
   image: docker.io/dropveter/oraclelinux9-ansible
 - name: oraclelinux10
   ci: false

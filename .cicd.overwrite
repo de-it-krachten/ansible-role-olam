@@ -26,9 +26,6 @@ platforms:
   rockylinux10:
     supported: false
     ci: false
-  oraclelinux9:
-    supported: false
-    ci: false
   oraclelinux10:
     supported: false
     ci: false
@@ -69,7 +66,7 @@ molecule:
     vars:
       install_python: true
       python38: false
-      python39: true
+      python39: false
       python311: true
   converge:
     vars:
@@ -83,9 +80,10 @@ molecule:
         - { port: 80, proto: tcp }
         - { port: 443, proto: tcp }
       # PostgreSQL
-      postgresql_version: 13
+      postgresql_version: 16
       postgresql_db_name: awx
       postgresql_db_user: awx
+      postgresql_db_user_full_access: true
       postgresql_db_password: awx
       postgresql_password_encryption_scheme: scram-sha-256
       postgresql_install_optional_packages: true
