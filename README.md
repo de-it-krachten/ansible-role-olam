@@ -89,6 +89,7 @@ olam_install_awxkit: true
 # List of pypi packages to install
 olam_awxkit_packages:
   - "awxkit==24.6.1"
+  - "pyyaml"
 
 # venv root
 olam_awxkit_venv_path: /usr/local/venv/awxkit
