@@ -115,7 +115,7 @@
 - name: Provision instance  # noqa no-free-form
   ansible.builtin.shell: |
     log={{ olam_log_dir }}/awx-manage-provision_instance.log
-    awx-manage provision_instance --hostname={{ olam_service_ip }} > ${log}.tmp 2>&1 && \
+    awx-manage provision_instance --hostname={{ olam_hostname }} > ${log}.tmp 2>&1 && \
     mv ${log}.tmp ${log}
   args:
     creates: "{{ olam_log_dir }}/awx-manage-provision_instance.log"
@@ -135,7 +135,7 @@
 - name: Register queue 'default'  # noqa no-free-form
   ansible.builtin.shell: |
     log={{ olam_log_dir }}/awx-manage-register-queue-default.log
-    awx-manage register_queue --queuename=default --hostnames={{ olam_service_ip }} > ${log}.tmp 2>&1 && \
+    awx-manage register_queue --queuename=default --hostnames={{ olam_hostname }} > ${log}.tmp 2>&1 && \
     mv ${log}.tmp ${log}
   args:
     creates: "{{ olam_log_dir }}/awx-manage-register-queue-default.log"
@@ -145,7 +145,7 @@
 - name: Register queue 'controlplane'  # noqa no-free-form
   ansible.builtin.shell: |
     log={{ olam_log_dir }}/awx-manage-register-queue-controlplane.log
-    awx-manage register_queue --queuename=controlplane --hostnames={{ olam_service_ip }} > ${log}.tmp 2>&1 && \
+    awx-manage register_queue --queuename=controlplane --hostnames={{ olam_hostname }} > ${log}.tmp 2>&1 && \
     mv ${log}.tmp ${log}
   args:
     creates: "{{ olam_log_dir }}/awx-manage-register-queue-controlplane.log"
