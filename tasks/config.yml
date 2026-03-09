@@ -13,6 +13,13 @@
     - conf.d/db.py
     - conf.d/olam.py
 
+- name: Configure cluster id via /etc/hosts  # noqa no-changed-when command-instead-of-module
+  ansible.builtin.shell: |
+    sed -i "/{{ olam_hostname }}/d" /etc/hosts
+    echo "{{ ansible_default_ipv4['address'] }} {{ olam_hostname }}" >> /etc/hosts
+  become: yes
+  when: olam_hostname == 'olam.local'
+
 - name: Make sure that '{{ olam_root }}' is writable  # noqa name[template]
   ansible.builtin.file:
     path: "{{ olam_root }}"
