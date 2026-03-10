@@ -37,7 +37,8 @@ Note:
 ### defaults/main.yml
 <pre><code>
 # OLAM version
-olam_version: 2
+olam_version: '2.3'
+olam_versions: [ '1.0', '2.0', '2.2', '2.3' ]
 
 # Should IPv6 be disabled in nginx
 olam_disable_ipv6: false
@@ -74,8 +75,8 @@ olam_admin_force_reset: false
 # olam_secret_key: "YL9CKCjHyLvMFpZ3fW9g4NtzCbx5Cj"  # Minimal of 16 characters
 
 # Should demo data be loaded
-olam_demo_data: true
-# olam_demo_data: false
+# olam_demo_data: true
+olam_demo_data: false
 
 # # Expose postgresql database externally
 # olam_db_external: false
