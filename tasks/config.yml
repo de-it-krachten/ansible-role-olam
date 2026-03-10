@@ -93,6 +93,7 @@
       awx-manage create_preload_data
   become: yes
   become_user: awx
+  changed_when: true
   when: olam_demo_data | bool
 
 - name: Get oauth token
@@ -126,7 +127,7 @@
       Content-Type: "application/json"
   register: __instance_groups
 
-- name: Make instance group list
+- name: Make instance group list  # noqa jinja[spacing]
   ansible.builtin.set_fact:
     instance_groups: >-
       {
