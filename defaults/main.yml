@@ -39,8 +39,8 @@ olam_admin_force_reset: false
 # olam_secret_key: "YL9CKCjHyLvMFpZ3fW9g4NtzCbx5Cj"  # Minimal of 16 characters
 
 # Should demo data be loaded
-olam_demo_data: true
-# olam_demo_data: false
+# olam_demo_data: true
+olam_demo_data: false
 
 # # Expose postgresql database externally
 # olam_db_external: false
