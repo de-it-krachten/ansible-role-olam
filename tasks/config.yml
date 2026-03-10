@@ -62,8 +62,8 @@
         log={{ olam_log_dir }}/awx-manage-migrate.log
         awx-manage migrate > ${log}.tmp 2>&1 && \
         mv ${log}.tmp ${log}
-      args:
-        creates: "{{ olam_log_dir }}/awx-manage-migrate.log"
+#      args:
+#        creates: "{{ olam_log_dir }}/awx-manage-migrate.log"
       become: yes
       become_user: awx
 
@@ -82,7 +82,10 @@
 - name: Create admin user
   ansible.builtin.shell: |
     log={{ olam_log_dir }}/awx-manage-createsuperuser.log
-    awx-manage createsuperuser --username {{ olam_admin_username }} --email {{ olam_admin_email }} --noinput > ${log}.tmp 2>&1 && \
+    awx-manage createsuperuser \
+     --username {{ olam_admin_username }} \
+     --email {{ olam_admin_email }} \
+     --noinput > ${log}.tmp 2>&1 && \
     mv ${log}.tmp ${log}
   args:
     creates: "{{ olam_log_dir }}/awx-manage-createsuperuser.log"

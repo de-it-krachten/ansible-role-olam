@@ -12,7 +12,7 @@
     extra_args: "--upgrade"
   become: yes
 
-- name: Install docker-compose via pip
+- name: Install awxkit via pip
   ansible.builtin.pip:
     name: "{{ olam_awxkit_packages }}"
     state: present

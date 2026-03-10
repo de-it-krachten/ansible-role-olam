@@ -5,15 +5,12 @@
     name: oraclelinux-automation-manager-release-el{{ ansible_distribution_major_version }}
     state: present
 
-- name: Enable Oracle Linux Automation Manager repository
-  community.general.ini_file:
-    path: /etc/yum.repos.d/oraclelinux-automation-manager-ol{{ ansible_distribution_major_version }}.repo
-    section: ol8_automation2,
-    option: enabled
-    value: "1"
+- name: Activate the required repository
+  ansible.builtin.template:
+    src: oraclelinux-automation-manager.repo.j2
+    dest: /etc/yum.repos.d/oraclelinux-automation-manager-ol{{ ansible_distribution_major_version }}.repo
     mode: "0644"
-  notify:
-    - Dnf update cache
+  notify: Dnf update cache
 
 - name: Flush the handlers
   ansible.builtin.meta: flush_handlers
