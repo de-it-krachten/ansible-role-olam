@@ -96,45 +96,57 @@
   changed_when: true
   when: olam_demo_data | bool
 
-- name: Get oauth token
-  ansible.builtin.command:
-    cmd: >-
-      awx-manage create_oauth2_token
-      --user {{ olam_admin_username }}
-  changed_when: false
-  register: __token
+- name: Get all active ports
+  community.general.listen_ports_facts:
 
-- name: Get instance info
-  ansible.builtin.uri:
-    url: "http://127.0.0.1/api/v2/instances/"
-    method: GET
-    headers:
-      Authorization: "Bearer {{ __token.stdout }}"
-      Content-Type: "application/json"
-  register: __instances
-
-- name: Make instances list
+- name: Set empty instance variables
   ansible.builtin.set_fact:
-    instances: >-
-      {{ __instances.json.results | map(attribute='hostname') | list }}
+    instances: []
+    instance_groups: []
 
-- name: Get instance groups info
-  ansible.builtin.uri:
-    url: "http://127.0.0.1/api/v2/instance_groups/"
-    method: GET
-    headers:
-      Authorization: "Bearer {{ __token.stdout }}"
-      Content-Type: "application/json"
-  register: __instance_groups
+- name: Retrieve data via API
+  when: ansible_facts.tcp_listen | selectattr('port', 'eq', 443) | length > 0
+  block:
 
-- name: Make instance group list  # noqa jinja[spacing]
-  ansible.builtin.set_fact:
-    instance_groups: >-
-      {
-        {%- for g in __instance_groups.json.results -%}
-        "{{ g.name }}": {{ g.policy_instance_list }}{{ '' if loop.last else ',' }}
-        {%- endfor -%}
-      }
+    - name: Get oauth token
+      ansible.builtin.command:
+        cmd: >-
+          awx-manage create_oauth2_token
+          --user {{ olam_admin_username }}
+      changed_when: false
+      register: __token
+
+    - name: Get instance info
+      ansible.builtin.uri:
+        url: "http://127.0.0.1/api/v2/instances/"
+        method: GET
+        headers:
+          Authorization: "Bearer {{ __token.stdout }}"
+          Content-Type: "application/json"
+      register: __instances
+
+    - name: Make instances list
+      ansible.builtin.set_fact:
+        instances: >-
+          {{ __instances.json.results | map(attribute='hostname') | list }}
+
+    - name: Get instance groups info
+      ansible.builtin.uri:
+        url: "http://127.0.0.1/api/v2/instance_groups/"
+        method: GET
+        headers:
+          Authorization: "Bearer {{ __token.stdout }}"
+          Content-Type: "application/json"
+      register: __instance_groups
+
+    - name: Make instance group list  # noqa jinja[spacing]
+      ansible.builtin.set_fact:
+        instance_groups: >-
+          {
+            {%- for g in __instance_groups.json.results -%}
+            "{{ g.name }}": {{ g.policy_instance_list }}{{ '' if loop.last else ',' }}
+            {%- endfor -%}
+          }
 
 - name: Configuration steps
   become: yes
@@ -162,9 +174,9 @@
           awx-manage register_queue
           --queuename=default
           --hostnames={{ olam_hostname }}
-      when:
-        - instance_groups['default'] is defined
-        - olam_hostname not in instance_groups['default']
+      when: >
+        instance_groups['default'] is undefined or
+        olam_hostname not in instance_groups['default']
       changed_when: true
 
     - name: Register queue 'controlplane'
@@ -173,9 +185,9 @@
           awx-manage register_queue
           --queuename=controlplane
           --hostnames={{ olam_hostname }}
-      when:
-        - instance_groups['default'] is defined
-        - olam_hostname not in instance_groups['controlplane']
+      when: >-
+        instance_groups['default'] is undefined or
+        olam_hostname not in instance_groups['controlplane']
       changed_when: true
 
 # - name: Update AWX settings
