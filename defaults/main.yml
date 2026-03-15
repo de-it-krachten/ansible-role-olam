@@ -48,20 +48,6 @@ olam_demo_data: false
 # OLAM hostname
 olam_hostname: "{{ ansible_hostname }}"
 
-# awxkit (awx/olam cli)
-olam_install_awxkit: true
-
-# List of pypi packages to install
-olam_awxkit_packages:
-  - "awxkit==24.6.1"
-  - "pyyaml"
-
-# venv root
-olam_awxkit_venv_path: /usr/local/venv/awxkit
-
-# Python version to use
-olam_awxkit_venv_python: /usr/bin/python3.11
-
 # Should the 'podman system migrate' be executed
 # Set to false when running this role from OLAM on itself
 olam_podman_system_migrate: true
