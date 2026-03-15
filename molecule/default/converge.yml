@@ -11,9 +11,10 @@
     olam_admin_password: Admin123!
     ansible_python_interpreter: /usr/bin/python3
     firewall_ports: [{'port': 80, 'proto': 'tcp'}, {'port': 443, 'proto': 'tcp'}]
-    postgresql_version: 13
+    postgresql_version: 16
     postgresql_db_name: awx
     postgresql_db_user: awx
+    postgresql_db_user_full_access: True
     postgresql_db_password: awx
     postgresql_password_encryption_scheme: scram-sha-256
     postgresql_install_optional_packages: True

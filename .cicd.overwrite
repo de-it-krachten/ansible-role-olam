@@ -8,9 +8,6 @@ generic:
 
 # Supported platforms
 platforms:
-  rhel7:
-    supported: false
-    ci: false
   rhel8:
     supported: false
     ci: false
@@ -20,12 +17,6 @@ platforms:
   rhel10:
     supported: false
     ci: false
-  centos7:
-    supported: false
-    ci: false
-  centos8:
-    supported: false
-    ci: false
   rockylinux8:
     supported: false
     ci: false
@@ -33,14 +24,6 @@ platforms:
     supported: false
     ci: false
   rockylinux10:
-    supported: false
-    ci: false
-  oraclelinux8:
-    supported: true
-    ci: true
-    ports:
-      - 443
-  oraclelinux9:
     supported: false
     ci: false
   oraclelinux10:
@@ -55,15 +38,6 @@ platforms:
   almalinux10:
     supported: false
     ci: false
-  opensuse15:
-    supported: false
-    ci: false
-  sles15:
-    supported: false
-    ci: false
-  debian10:
-    supported: false
-    ci: false
   debian11:
     supported: false
     ci: false
@@ -73,28 +47,16 @@ platforms:
   debian13:
     supported: false
     ci: false
-  ubuntu1804:
-    supported: false
-    ci: false
-  ubuntu2004:
-    supported: false
-    ci: false
   ubuntu2204:
     supported: false
     ci: false
   ubuntu2404:
     supported: false
     ci: false
-  fedora41:
-    supported: false
-    ci: false
   fedora42:
     supported: false
     ci: false
   fedora43:
-    supported: false
-    ci: false
-  alpine3:
     supported: false
     ci: false
 
@@ -104,7 +66,7 @@ molecule:
     vars:
       install_python: true
       python38: false
-      python39: true
+      python39: false
       python311: true
   converge:
     vars:
@@ -118,9 +80,10 @@ molecule:
         - { port: 80, proto: tcp }
         - { port: 443, proto: tcp }
       # PostgreSQL
-      postgresql_version: 13
+      postgresql_version: 16
       postgresql_db_name: awx
       postgresql_db_user: awx
+      postgresql_db_user_full_access: true
       postgresql_db_password: awx
       postgresql_password_encryption_scheme: scram-sha-256
       postgresql_install_optional_packages: true

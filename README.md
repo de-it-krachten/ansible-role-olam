@@ -11,15 +11,14 @@ This role is based on https://docs.oracle.com/en/learn/olam-install<br>
 ## Dependencies
 
 #### Roles
-- deitkrachten.firewalld
 - deitkrachten.firewall
+- deitkrachten.firewalld
 - deitkrachten.openssl
 - deitkrachten.postgresql
 - deitkrachten.python
 - deitkrachten.redis
 
 #### Collections
-- containers.podman
 - community.general
 - containers.podman
 
@@ -28,15 +27,18 @@ This role is based on https://docs.oracle.com/en/learn/olam-install<br>
 Supported platforms
 
 - OracleLinux 8
+- OracleLinux 9
 
 Note:
 <sup>1</sup> : no automated testing is performed on these platforms
+
 
 ## Role Variables
 ### defaults/main.yml
 <pre><code>
 # OLAM version
-olam_version: 2
+olam_version: '2.3'
+olam_versions: [ '1.0', '2.0', '2.2', '2.3' ]
 
 # Should IPv6 be disabled in nginx
 olam_disable_ipv6: false
@@ -73,8 +75,8 @@ olam_admin_force_reset: false
 # olam_secret_key: "YL9CKCjHyLvMFpZ3fW9g4NtzCbx5Cj"  # Minimal of 16 characters
 
 # Should demo data be loaded
-olam_demo_data: true
-# olam_demo_data: false
+# olam_demo_data: true
+olam_demo_data: false
 
 # # Expose postgresql database externally
 # olam_db_external: false
@@ -87,13 +89,14 @@ olam_install_awxkit: true
 
 # List of pypi packages to install
 olam_awxkit_packages:
-  - "awxkit==23.7.0"
+  - "awxkit==24.6.1"
+  - "pyyaml"
 
 # venv root
 olam_awxkit_venv_path: /usr/local/venv/awxkit
 
 # Python version to use
-olam_awxkit_venv_python: /usr/bin/python3.9
+olam_awxkit_venv_python: /usr/bin/python3.11
 
 # Should the 'podman system migrate' be executed
 # Set to false when running this role from OLAM on itself
@@ -121,9 +124,10 @@ olam_podman_system_migrate: true
         proto: tcp
       - port: 443
         proto: tcp
-    postgresql_version: 13
+    postgresql_version: 16
     postgresql_db_name: awx
     postgresql_db_user: awx
+    postgresql_db_user_full_access: true
     postgresql_db_password: awx
     postgresql_password_encryption_scheme: scram-sha-256
     postgresql_install_optional_packages: true

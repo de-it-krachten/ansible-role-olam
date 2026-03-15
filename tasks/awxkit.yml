@@ -5,25 +5,14 @@
     name:
       - pip
       - wheel
-      - setuptools
-      # - setuptools_rust
+      - "setuptools<82"
     state: present
     virtualenv: "{{ olam_awxkit_venv_path }}"
     virtualenv_command: "{{ olam_awxkit_venv_python }} -m venv"
     extra_args: "--upgrade"
   become: yes
 
-# - name: Install pyyaml / cython into virtual environment
-#   ansible.builtin.pip:
-#     name:
-#       - "cython<3.0.0"
-#       - "pyyaml<6"
-#     state: present
-#     executable: "{{ olam_awxkit_venv_path }}/bin/pip3"
-#     extra_args: "--no-build-isolation"
-#   become: yes
-
-- name: Install docker-compose via pip
+- name: Install awxkit via pip
   ansible.builtin.pip:
     name: "{{ olam_awxkit_packages }}"
     state: present

@@ -41,12 +41,14 @@
       - almalinux8
       - almalinux9
       - sles15
+      - sles16
       - opensuse15
+      - opensuse16
 
     systemctl_alternative: False
     install_python: True
     python38: False
-    python39: True
+    python39: False
     python311: True
   roles:
     - { role: deitkrachten.facts, when: ansible_os_family != 'Windows' }
@@ -187,9 +189,8 @@
         - name: Install default packages
           ansible.builtin.package:
             name:
-              - lsb
+              - lsb-release
               - iproute
-              - python-xml
               - python3-xml
               - python3-rpm
               - unzip
