@@ -1,3 +1,19 @@
+# [1.8.0](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.7.2...v1.8.0) (2026-03-15)
+
+
+### Bug Fixes
+
+* Allign olam.py with receptor.conf ([562d4e4](https://github.com/de-it-krachten/ansible-role-olam/commit/562d4e426a35395da2836101649cfd1bc91e15f6))
+* Always perform migration steps ([3570ef2](https://github.com/de-it-krachten/ansible-role-olam/commit/3570ef28ce788140d88ffddbf95407340f8268c0))
+* Use olam_hostname instead of olam_cluster_ip ([a372332](https://github.com/de-it-krachten/ansible-role-olam/commit/a3723321f3c5a2333853ee3f347ec701da615885))
+* Use postgresql_service variable when defined ([c82dec3](https://github.com/de-it-krachten/ansible-role-olam/commit/c82dec3b16db6de376eb0b526abfbf7cffb53345))
+
+
+### Features
+
+* Added support for Oracle Linux 9 ([ca235a5](https://github.com/de-it-krachten/ansible-role-olam/commit/ca235a568be5dc050ca34c9d207e5dcf1365f6ed))
+* Defaults to OLAM v2.3 ([675b6a4](https://github.com/de-it-krachten/ansible-role-olam/commit/675b6a4a65765ac6229196a18b92638265c2fae4))
+
 ## [1.7.2](https://github.com/de-it-krachten/ansible-role-olam/compare/v1.7.1...v1.7.2) (2025-10-13)
 
 
