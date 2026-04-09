@@ -8,12 +8,15 @@ olam_versions: [ '1.0', '2.0', '2.2', '2.3' ]
 olam_disable_ipv6: false
 
 # Postgresql settings
-olam_postgresql_version: 13
+olam_postgresql_version: 16
 olam_db_name: awx
 olam_db_host: localhost
 olam_db_port: 5432
 olam_db_user: awx
 olam_db_password: awx
+
+# package state (option state = latest)
+olam_package_state: present
 
 # Set OLAM base location
 olam_root: /var/lib/ol-automation-manager
