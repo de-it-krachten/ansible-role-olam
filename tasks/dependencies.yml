@@ -8,7 +8,7 @@
     value: "1"
     mode: "0644"
   vars:
-    v: "{{ ansible_distribution_major_version }}"
+    v: "{{ ansible_facts.distribution_major_version }}"
   loop:
     - { name: "ol{{ v }}_baseos_latest", file: "oracle-linux-ol{{ v }}.repo" }
     - { name: "ol{{ v }}_addons", file: "oracle-linux-ol{{ v }}.repo" }
