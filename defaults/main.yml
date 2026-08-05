@@ -29,7 +29,7 @@ olam_group: awx
 olam_log_dir: /var/lib/ol-automation-manager
 
 # IP address used for OLAM
-olam_service_ip: "{{ ansible_all_ipv4_addresses[0] }}"
+olam_service_ip: "{{ ansible_facts.all_ipv4_addresses[0] }}"
 
 # OLAM admin user
 olam_admin_username: admin
@@ -49,7 +49,7 @@ olam_demo_data: false
 # olam_db_external: false
 
 # OLAM hostname
-olam_hostname: "{{ ansible_hostname }}"
+olam_hostname: "{{ ansible_facts.hostname }}"
 
 # Should the 'podman system migrate' be executed
 # Set to false when running this role from OLAM on itself
