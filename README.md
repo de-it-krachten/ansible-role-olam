@@ -44,12 +44,15 @@ olam_versions: [ '1.0', '2.0', '2.2', '2.3' ]
 olam_disable_ipv6: false
 
 # Postgresql settings
-olam_postgresql_version: 13
+olam_postgresql_version: 16
 olam_db_name: awx
 olam_db_host: localhost
 olam_db_port: 5432
 olam_db_user: awx
 olam_db_password: awx
+
+# package state (option state = latest)
+olam_package_state: present
 
 # Set OLAM base location
 olam_root: /var/lib/ol-automation-manager
@@ -83,20 +86,6 @@ olam_demo_data: false
 
 # OLAM hostname
 olam_hostname: "{{ ansible_hostname }}"
-
-# awxkit (awx/olam cli)
-olam_install_awxkit: true
-
-# List of pypi packages to install
-olam_awxkit_packages:
-  - "awxkit==24.6.1"
-  - "pyyaml"
-
-# venv root
-olam_awxkit_venv_path: /usr/local/venv/awxkit
-
-# Python version to use
-olam_awxkit_venv_python: /usr/bin/python3.11
 
 # Should the 'podman system migrate' be executed
 # Set to false when running this role from OLAM on itself

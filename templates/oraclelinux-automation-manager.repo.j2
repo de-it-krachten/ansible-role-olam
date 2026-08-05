@@ -1,6 +1,6 @@
 {% for v in olam_versions %}
 {% set vv = '' if v == '1.0' else '2' if v == '2.0' else v %}
-{% set ol = 'ol' + ansible_distribution_major_version %}
+{% set ol = 'ol' + ansible_facts.distribution_major_version %}
 [{{ ol }}_automation{{ vv}}]
 name=Oracle Linux Automation Manager {{ v }} based on the open source projects Ansible and AWX ($basearch)
 baseurl=https://yum$ociregion.$ocidomain/repo/OracleLinux/{{ ol | upper }}/automation{{ vv }}/$basearch/

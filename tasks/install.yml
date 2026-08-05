@@ -2,13 +2,13 @@
 
 - name: Install Oracle Linux Automation Manager repository
   ansible.builtin.dnf:
-    name: oraclelinux-automation-manager-release-el{{ ansible_distribution_major_version }}
-    state: present
+    name: oraclelinux-automation-manager-release-el{{ ansible_facts.distribution_major_version }}
+    state: "{{ olam_package_state }}"
 
 - name: Activate the required repository
   ansible.builtin.template:
     src: oraclelinux-automation-manager.repo.j2
-    dest: /etc/yum.repos.d/oraclelinux-automation-manager-ol{{ ansible_distribution_major_version }}.repo
+    dest: /etc/yum.repos.d/oraclelinux-automation-manager-ol{{ ansible_facts.distribution_major_version }}.repo
     mode: "0644"
   notify: Dnf update cache
 
@@ -18,5 +18,5 @@
 - name: Install the Oracle Linux Automation Manager package and any dependencies
   ansible.builtin.dnf:
     name: ol-automation-manager
-    state: present
+    state: "{{ olam_package_state }}"
     disablerepo: epel
