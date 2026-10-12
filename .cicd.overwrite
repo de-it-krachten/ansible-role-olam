@@ -38,9 +38,6 @@ platforms:
   almalinux10:
     supported: false
     ci: false
-  debian11:
-    supported: false
-    ci: false
   debian12:
     supported: false
     ci: false
@@ -53,10 +50,13 @@ platforms:
   ubuntu2404:
     supported: false
     ci: false
-  fedora42:
+  ubuntu2604:
     supported: false
     ci: false
   fedora43:
+    supported: false
+    ci: false
+  fedora44:
     supported: false
     ci: false
 
